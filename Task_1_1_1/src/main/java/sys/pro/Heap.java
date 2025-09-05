@@ -2,10 +2,18 @@ package sys.pro;
 
 import java.util.NoSuchElementException;
 
+/**
+ * This class is a min binary heap.
+ */
 public class Heap {
     protected int[] storage;
     protected int len;
 
+    /**
+     * Builds heap from given array.
+     *
+     * @param array an array of ints, from which heap should be builded. Must not be null.
+     */
     public Heap(int[] array) throws NullPointerException {
         if (array == null) {
             throw new NullPointerException();
@@ -16,6 +24,12 @@ public class Heap {
         }
     }
 
+    /**
+     * Removes minimal element from heap and returns it.
+     *
+     * @return minimal element from heap.
+     * @throws NoSuchElementException if this heap is empty. Must not be null.
+     */
     public int pop() throws NoSuchElementException {
         if (len <= 0) {
             throw new NoSuchElementException();
