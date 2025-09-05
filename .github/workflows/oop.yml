@@ -10,10 +10,7 @@ on:
 
 jobs:
   build:
-    permissions:
-      issues: write
-      pages: write
-      pull-requests: write
+    permissions: write-all
     runs-on: ubuntu-latest
     defaults:
       run:
