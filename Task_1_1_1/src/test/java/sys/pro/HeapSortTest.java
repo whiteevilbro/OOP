@@ -96,4 +96,12 @@ public class HeapSortTest {
         int[] array = generateArray(431136);
         sortTest(array);
     }
+
+    /**
+     * Constructor test case.
+     */
+    @Test
+    public void testConstructor() {
+        HeapSort heapSort = new HeapSort();
+    }
 }
