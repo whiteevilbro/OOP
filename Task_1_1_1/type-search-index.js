@@ -1,1 +1,1 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"sys.pro","l":"Heap"},{"p":"sys.pro","l":"HeapSort"}];updateSearchResults();
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"sys.pro","l":"Heap"},{"p":"sys.pro","l":"HeapSort"},{"p":"sys.pro","l":"Main"}];updateSearchResults();
