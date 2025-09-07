@@ -7,8 +7,8 @@ import java.util.NoSuchElementException;
  */
 public class Heap {
 
-    protected int[] storage;
-    protected int len;
+    private int[] storage;
+    private int len;
 
     /**
      * Builds heap from given array.

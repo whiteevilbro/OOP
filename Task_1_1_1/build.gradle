@@ -27,6 +27,16 @@ compileTestJava.options.encoding = "UTF-8"
 javadoc.options.encoding = "UTF-8"
 
 jacocoTestReport {
+    dependsOn test
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "sys/pro/Main.class"
+            ])
+        }))
+    }
+
     reports {
         xml.required = true
     }

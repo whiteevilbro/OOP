@@ -1,8 +1,10 @@
 .gradle
 build/
+shbuild/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+*.class
 
 ### IntelliJ IDEA ###
 .idea/

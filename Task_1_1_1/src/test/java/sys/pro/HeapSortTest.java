@@ -23,7 +23,7 @@ public class HeapSortTest {
 
     private static int[] generateArray(int size) {
         int[] array = new int[size];
-        Random random = new Random();
+        Random random = new Random(size);
         for (int i = 0; i < size; i++) {
             array[i] = random.nextInt();
         }
