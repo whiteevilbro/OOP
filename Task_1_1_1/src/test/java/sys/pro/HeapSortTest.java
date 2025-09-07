@@ -2,7 +2,7 @@ package sys.pro;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -63,12 +63,7 @@ public class HeapSortTest {
      */
     @Test
     public void testSortNull() {
-        try {
-            HeapSort.sort(null);
-        } catch (NullPointerException ex) {
-            return;
-        }
-        fail();
+        assertThrows(NullPointerException.class, () -> HeapSort.sort(null));
     }
 
     /**

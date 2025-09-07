@@ -1,7 +1,7 @@
 package sys.pro;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Test;
@@ -28,12 +28,7 @@ public class HeapTest {
      */
     @Test
     void testHeapNull() {
-        try {
-            Heap heap = new Heap(null);
-        } catch (NullPointerException ex) {
-            return;
-        }
-        fail();
+        assertThrows(NullPointerException.class, () -> new Heap(null));
     }
 
     /**
@@ -41,13 +36,6 @@ public class HeapTest {
      */
     @Test
     void testHeapEmpty() {
-        try {
-            int[] a = new int[0];
-            Heap heap = new Heap(a);
-            heap.pop();
-        } catch (NoSuchElementException ex) {
-            return;
-        }
-        fail();
+        assertThrows(NoSuchElementException.class, () -> (new Heap(new int[0])).pop());
     }
 }
