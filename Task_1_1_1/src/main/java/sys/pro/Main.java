@@ -3,12 +3,12 @@ package sys.pro;
 import java.util.Scanner;
 
 /**
- * Main entrypoint class of application
+ * Main entrypoint class of application.
  */
 public class Main {
 
     /**
-     * Main entrypoint of application
+     * Main entrypoint of application.
      *
      * @param argv array of command line arguments
      */
