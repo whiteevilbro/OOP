@@ -2,10 +2,19 @@ package pro.sys;
 
 import java.util.HashMap;
 
+/**
+ * This class is a subtraction operator expression.
+ */
 public final class Sub extends Operator {
 
-    public Sub(Expression left, Expression right) {
-        super((new Expression[]{left, right}));
+    /**
+     * Constructs Sub object with two given subexpressions.
+     *
+     * @param minuend    expression to be used as minuend
+     * @param subtrahend expression to be used as subtrahend
+     */
+    public Sub(Expression minuend, Expression subtrahend) {
+        super((new Expression[]{minuend, subtrahend}));
     }
 
     private Sub(Expression[] subExpressions) {

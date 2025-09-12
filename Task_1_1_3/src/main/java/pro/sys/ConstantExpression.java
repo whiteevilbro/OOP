@@ -2,9 +2,18 @@ package pro.sys;
 
 import java.util.HashMap;
 
+/**
+ * This class is an abstract Constant Expression class. All subclasses of this class should be
+ * capable of evaluating without any variables' values.
+ */
 public abstract non-sealed class ConstantExpression extends Expression {
 
-    public static Expression build() throws UnsupportedOperationException {
+    /**
+     * Not supported.
+     *
+     * @throws UnsupportedOperationException if called
+     */
+    public static void build() throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
 
@@ -16,6 +25,11 @@ public abstract non-sealed class ConstantExpression extends Expression {
         return this.eval().equals(((ConstantExpression) o).eval());
     }
 
+    /**
+     * Evaluates expression without variables' values.
+     *
+     * @return expression value
+     */
     public abstract Integer eval();
 
     @Override

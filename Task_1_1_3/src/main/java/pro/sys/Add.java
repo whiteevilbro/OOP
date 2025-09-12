@@ -2,8 +2,17 @@ package pro.sys;
 
 import java.util.HashMap;
 
+/**
+ * This class is an addition operator expression.
+ */
 public final class Add extends Operator {
 
+    /**
+     * Constructs Add object with two given subexpressions.
+     *
+     * @param left  expression to be used as left addition term
+     * @param right expression to be used as right addition term
+     */
     public Add(Expression left, Expression right) {
         super((new Expression[]{left, right}));
     }

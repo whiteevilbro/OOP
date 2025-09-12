@@ -1,9 +1,17 @@
 package pro.sys;
 
+/**
+ * This class is a constant literal expression.
+ */
 public final class Constant extends ConstantExpression {
 
     private final Integer value;
 
+    /**
+     * Constructs Const object with given value.
+     *
+     * @param value Integer to be used as value
+     */
     public Constant(Integer value) {
         this.value = value;
     }

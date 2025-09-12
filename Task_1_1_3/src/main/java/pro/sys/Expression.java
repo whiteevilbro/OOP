@@ -7,42 +7,25 @@ import java.security.InvalidParameterException;
 import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * This class is an abstract Expression class.
+ */
 // It would've been generic, but there's no structural typing in java
 public abstract sealed class Expression implements Comparable<Expression>, Cloneable permits
     ConstantExpression, Operator, Variable {
 
-    private static void processOperator(Stack<Expression> expressionStack, String operator)
-        throws InvalidParameterException {
-        Expression left;
-        Expression right;
-        try {
-            right = expressionStack.pop();
-            left = expressionStack.pop();
-        } catch (EmptyStackException exception) {
-            throw new IllegalArgumentException();
-        }
-        switch (operator) {
-            case "+":
-                expressionStack.push(new Add(left, right));
-                break;
-            case "-":
-                expressionStack.push(new Sub(left, right));
-                break;
-            case "/":
-                expressionStack.push(new Div(left, right));
-                break;
-            case "*":
-                expressionStack.push(new Mul(left, right));
-                break;
-            default:
-                throw new InvalidParameterException();
-        }
-    }
-
+    /**
+     * Builds expression from given string.
+     *
+     * @param expression string containing arithmetical expression
+     * @return Expression object built from given string
+     * @throws InvalidParameterException if given string is not valid arithmetic expression
+     */
     // Couldn't come up with expandable solution without some kind of builder class,
     // but it would've to be friend to this class. But there's no friends in Java.
     public static Expression build(String expression) throws InvalidParameterException {
@@ -112,6 +95,34 @@ public abstract sealed class Expression implements Comparable<Expression>, Clone
         return outStack.pop();
     }
 
+    private static void processOperator(Stack<Expression> expressionStack, String operator)
+        throws InvalidParameterException {
+        Expression left;
+        Expression right;
+        try {
+            right = expressionStack.pop();
+            left = expressionStack.pop();
+        } catch (EmptyStackException exception) {
+            throw new IllegalArgumentException();
+        }
+        switch (operator) {
+            case "+":
+                expressionStack.push(new Add(left, right));
+                break;
+            case "-":
+                expressionStack.push(new Sub(left, right));
+                break;
+            case "/":
+                expressionStack.push(new Div(left, right));
+                break;
+            case "*":
+                expressionStack.push(new Mul(left, right));
+                break;
+            default:
+                throw new InvalidParameterException();
+        }
+    }
+
     @Override
     public abstract Expression clone();
 
@@ -123,31 +134,39 @@ public abstract sealed class Expression implements Comparable<Expression>, Clone
         return this.getClass().getSimpleName().compareTo(o.getClass().getSimpleName());
     }
 
+    /**
+     * Differentiates expression with reference to given variable.
+     *
+     * @param reference string containig variable name to differetiate with reference to.
+     * @return new Expression being derivative of this expression.
+     */
     public abstract Expression derivative(String reference);
 
-    /*
-    @Override
-    public boolean equals(Object o) {
-        switch (this) {
-            case Operator operator -> {
-                return operator.equals(o);
-            }
-            case ConstantExpression constantExpression -> {
-                return constantExpression.equals(o);
-            }
-            case Variable variable -> {
-                return variable.equals(o);
-            }
-            default -> {
-                throw new IllegalArgumentException();
-            }
-        }
-    }
+    /**
+     * Evaluates expression using variables' values.
+     *
+     * @param values HashMap&lt;String, Integer&gt; containing values for each variable present in
+     *               expression
+     * @return expression value
+     * @throws NoSuchElementException if expression contains variable not present in given values
      */
+    public abstract Integer eval(HashMap<String, Integer> values) throws NoSuchElementException;
 
-    public abstract Integer eval(HashMap<String, Integer> values);
-
-    public Integer eval(String values) throws NumberFormatException {
+    /**
+     * Evaluates expression using variables' values.
+     *
+     * @param values String containing values for each variable present in expression in format
+     *               "((?&lt;name&gt;)\s*=\s*(?&lt;value&gt;)\s*;\s*)*
+     *               ((?&lt;name&gt;)\s*=\s*(?&lt;value&gt;)\s*"
+     * @return expression value
+     * @throws NumberFormatException     if string contain variable value that can't be parsed into
+     *                                   Integer
+     * @throws NoSuchElementException    if expression contains variable not present in given
+     *                                   values
+     * @throws InvalidParameterException if string breaks the format
+     */
+    public Integer eval(String values)
+        throws NumberFormatException, NoSuchElementException, InvalidParameterException {
         String[] varValues = values.split("\\s*;\\s*");
         HashMap<String, Integer> valueMap = new HashMap<>();
         for (String var : varValues) {
@@ -156,7 +175,7 @@ public abstract sealed class Expression implements Comparable<Expression>, Clone
             }
             String[] tokens = var.split("\\s*=\\s*", 2);
             if (tokens.length != 2) {
-                throw new IllegalArgumentException("Invalid token: " + var);
+                throw new InvalidParameterException("Invalid token: " + var);
             }
             valueMap.put(tokens[0], Integer.valueOf(tokens[1]));
         }
@@ -165,13 +184,30 @@ public abstract sealed class Expression implements Comparable<Expression>, Clone
 
     // I didn't want to include following methods, but they're required in the task
 
+    /**
+     * Prints expression to System out.
+     *
+     * @throws IOException if an I/O error occurs
+     */
+    @SuppressWarnings("unused")
     public final void print() throws IOException {
         print(System.out);
     }
 
+    /**
+     * Writes expression in string format to given stream.
+     *
+     * @param io output stream to write to
+     * @throws IOException if an I/O error occurs
+     */
     public final void print(OutputStream io) throws IOException {
         io.write(toString().getBytes(StandardCharsets.UTF_8));
     }
 
+    /**
+     * Partially evaluates and simplifies expression.
+     *
+     * @return new simplified expression
+     */
     public abstract Expression simplify();
 }

@@ -2,8 +2,17 @@ package pro.sys;
 
 import java.util.HashMap;
 
+/**
+ * This class is a division operator expression.
+ */
 public final class Div extends Operator {
 
+    /**
+     * Constructs Add object with two given subexpressions.
+     *
+     * @param numerator   expression to be used as numrator
+     * @param denominator expression to be used as denominator
+     */
     public Div(Expression numerator, Expression denominator) {
         super((new Expression[]{numerator, denominator}));
     }
@@ -29,12 +38,9 @@ public final class Div extends Operator {
     @Override
     public Expression derivative(String reference) {
         return new Div(
-            new Sub(
-                new Mul(subExpressions[0].derivative(reference), subExpressions[1].clone()),
-                new Mul(subExpressions[0].clone(), subExpressions[1].derivative(reference))
-            ),
-            new Mul(subExpressions[1].clone(), subExpressions[1].clone())
-        );
+            new Sub(new Mul(subExpressions[0].derivative(reference), subExpressions[1].clone()),
+                new Mul(subExpressions[0].clone(), subExpressions[1].derivative(reference))),
+            new Mul(subExpressions[1].clone(), subExpressions[1].clone()));
     }
 
     @Override

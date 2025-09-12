@@ -4,10 +4,19 @@ import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 
+/**
+ * This class is an abstract Variable class.
+ */
 public final class Variable extends Expression {
 
     private final String name;
 
+    /**
+     * Constructs Variable object with given name.
+     *
+     * @param name name of the variable consisting of latin letters and underscores
+     * @throws InvalidParameterException if name breaks format
+     */
     public Variable(String name) throws InvalidParameterException {
         if (!name.matches("[A-Za-z_]+")) {
             throw new InvalidParameterException();
@@ -15,7 +24,12 @@ public final class Variable extends Expression {
         this.name = name;
     }
 
-    public static Expression build() throws UnsupportedOperationException {
+    /**
+     * Not supported.
+     *
+     * @throws UnsupportedOperationException if called
+     */
+    public static void build() throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
 
@@ -47,7 +61,7 @@ public final class Variable extends Expression {
     }
 
     @Override
-    public Integer eval(HashMap<String, Integer> values) {
+    public Integer eval(HashMap<String, Integer> values) throws NoSuchElementException {
         Integer val = values.get(name);
         if (val == null) {
             throw new NoSuchElementException();
