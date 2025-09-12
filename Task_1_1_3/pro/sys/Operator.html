@@ -86,6 +86,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="modifiers">public abstract non-sealed class </span><span class="element-name type-name-label">Operator</span>
 <span class="extends-implements">extends <a href="Expression.html" title="class in pro.sys">Expression</a></span></div>
+<div class="block">This class is an abstract Operator class.</div>
 </section>
 <section class="summary">
 <ul class="summary-list">
@@ -98,7 +99,7 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>protected <a href="Expression.html" title="class in pro.sys">Expression</a>[]</code></div>
+<div class="col-first even-row-color"><code>protected final <a href="Expression.html" title="class in pro.sys">Expression</a>[]</code></div>
 <div class="col-second even-row-color"><code><a href="#subExpressions" class="member-name-link">subExpressions</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
@@ -130,9 +131,11 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Expression.html" title="class in pro.sys">Expression</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#build()" class="member-name-link">build</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Not supported.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#compareTo(pro.sys.Expression)" class="member-name-link">compareTo</a><wbr>(<a href="Expression.html" title="class in pro.sys">Expression</a>&nbsp;o)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
@@ -162,7 +165,7 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="subExpressions">
 <h3>subExpressions</h3>
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="Expression.html" title="class in pro.sys">Expression</a>[]</span>&nbsp;<span class="element-name">subExpressions</span></div>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="Expression.html" title="class in pro.sys">Expression</a>[]</span>&nbsp;<span class="element-name">subExpressions</span></div>
 </section>
 </li>
 </ul>
@@ -190,11 +193,12 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="build()">
 <h3>build</h3>
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Expression.html" title="class in pro.sys">Expression</a></span>&nbsp;<span class="element-name">build</span>()
-                        throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/UnsupportedOperationException.html" title="class or interface in java.lang" class="external-link">UnsupportedOperationException</a></span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">build</span>()
+                  throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/UnsupportedOperationException.html" title="class or interface in java.lang" class="external-link">UnsupportedOperationException</a></span></div>
+<div class="block">Not supported.</div>
 <dl class="notes">
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/UnsupportedOperationException.html" title="class or interface in java.lang" class="external-link">UnsupportedOperationException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/UnsupportedOperationException.html" title="class or interface in java.lang" class="external-link">UnsupportedOperationException</a></code> - if called</dd>
 </dl>
 </section>
 </li>
