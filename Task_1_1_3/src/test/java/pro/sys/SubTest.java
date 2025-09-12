@@ -10,10 +10,11 @@ import org.junit.jupiter.api.Test;
 class SubTest {
 
     @Test
-    void testDerivativeConstant() {
+    void testClone() {
         Expression expression = new Sub(new Constant(4), new Constant(3));
-        Expression derivative = expression.derivative("x");
-        assertEquals("(0-0)", derivative.toString());
+        Expression clonedExpression = expression.clone();
+        assertEquals(expression, clonedExpression);
+        assertNotSame(expression, clonedExpression);
     }
 
     @Test
@@ -24,17 +25,16 @@ class SubTest {
     }
 
     @Test
-    void testEval() {
+    void testDerivativeConstant() {
         Expression expression = new Sub(new Constant(4), new Constant(3));
-        assertEquals(Integer.valueOf(1), expression.eval((HashMap<String, Integer>) null));
+        Expression derivative = expression.derivative("x");
+        assertEquals("(0-0)", derivative.toString());
     }
 
     @Test
-    void testSimplifyConstant() {
+    void testEval() {
         Expression expression = new Sub(new Constant(4), new Constant(3));
-        Expression simplifiedExpression = expression.simplify();
-        assertEquals("1", simplifiedExpression.toString());
-        assertNotSame(expression, simplifiedExpression);
+        assertEquals(Integer.valueOf(1), expression.eval((HashMap<String, Integer>) null));
     }
 
     @Test
@@ -64,17 +64,17 @@ class SubTest {
     }
 
     @Test
+    void testSimplifyConstant() {
+        Expression expression = new Sub(new Constant(4), new Constant(3));
+        Expression simplifiedExpression = expression.simplify();
+        assertEquals("1", simplifiedExpression.toString());
+        assertNotSame(expression, simplifiedExpression);
+    }
+
+    @Test
     @Order(Order.DEFAULT / 2)
     void testToString() {
         Expression expression = new Sub(new Variable("s"), new Constant(3));
         assertEquals("(s-3)", expression.toString());
-    }
-
-    @Test
-    void testClone() {
-        Expression expression = new Sub(new Constant(4), new Constant(3));
-        Expression clonedExpression = expression.clone();
-        assertEquals(expression, clonedExpression);
-        assertNotSame(expression, clonedExpression);
     }
 }

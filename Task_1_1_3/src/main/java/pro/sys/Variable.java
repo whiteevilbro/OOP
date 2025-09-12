@@ -20,6 +20,25 @@ public final class Variable extends Expression {
     }
 
     @Override
+    public Expression clone() {
+        return new Variable(name);
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    @Override
+    public int compareTo(Expression o) {
+        int classNameComparison = super.compareTo(o);
+        if (classNameComparison != 0) {
+            return classNameComparison;
+        }
+        return name.compareTo(((Variable) o).name);
+    }
+
+    @Override
     public Expression derivative(String reference) {
         if (name.equals(reference)) {
             return new Constant(1);
@@ -39,25 +58,6 @@ public final class Variable extends Expression {
     @Override
     public Expression simplify() {
         return clone();
-    }
-
-    @Override
-    public String toString() {
-        return name;
-    }
-
-    @Override
-    public Expression clone() {
-        return new Variable(name);
-    }
-
-    @Override
-    public int compareTo(Expression o) {
-        int classNameComparison = super.compareTo(o);
-        if (classNameComparison != 0) {
-            return classNameComparison;
-        }
-        return name.compareTo(((Variable) o).name);
     }
 
     @Override

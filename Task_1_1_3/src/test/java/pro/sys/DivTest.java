@@ -10,6 +10,14 @@ import org.junit.jupiter.api.Test;
 class DivTest {
 
     @Test
+    void testClone() {
+        Expression expression = new Div(new Constant(4), new Constant(3));
+        Expression clonedExpression = expression.clone();
+        assertEquals(expression, clonedExpression);
+        assertNotSame(expression, clonedExpression);
+    }
+
+    @Test
     void testDerivative() {
         Expression expression = new Div(new Variable("x"), new Variable("y"));
         assertEquals("(((1*y)-(x*0))/(y*y))", expression.derivative("x").toString());
@@ -28,14 +36,6 @@ class DivTest {
     }
 
     @Test
-    void testSimplifyConstant() {
-        Expression expression = new Div(new Constant(6), new Constant(3));
-        Expression simplifiedExpression = expression.simplify();
-        assertEquals("2", simplifiedExpression.toString());
-        assertNotSame(expression, simplifiedExpression);
-    }
-
-    @Test
     void testSimplify() {
         Expression expression = new Div(new Variable("x"), new Variable("x"));
         Expression simplifiedExpression = expression.simplify();
@@ -49,17 +49,17 @@ class DivTest {
     }
 
     @Test
+    void testSimplifyConstant() {
+        Expression expression = new Div(new Constant(6), new Constant(3));
+        Expression simplifiedExpression = expression.simplify();
+        assertEquals("2", simplifiedExpression.toString());
+        assertNotSame(expression, simplifiedExpression);
+    }
+
+    @Test
     @Order(Order.DEFAULT / 2)
     void testToString() {
         Expression expression = new Div(new Variable("s"), new Constant(3));
         assertEquals("(s/3)", expression.toString());
-    }
-
-    @Test
-    void testClone() {
-        Expression expression = new Div(new Constant(4), new Constant(3));
-        Expression clonedExpression = expression.clone();
-        assertEquals(expression, clonedExpression);
-        assertNotSame(expression, clonedExpression);
     }
 }

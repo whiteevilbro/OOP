@@ -1,16 +1,33 @@
 package pro.sys;
 
-final public class Constant extends ConstantExpression {
+public final class Constant extends ConstantExpression {
 
-    final private Integer value;
+    private final Integer value;
 
     public Constant(Integer value) {
         this.value = value;
     }
 
     @Override
-    public Integer eval() {
-        return value;
+    public Constant clone() {
+        return new Constant(value);
+    }
+
+    @Override
+    public String toString() {
+        return value.toString();
+    }
+
+    @Override
+    public int compareTo(Expression o) {
+        int classNameComparison = this.getClass().getSimpleName()
+            .compareTo(o.getClass().getSimpleName());
+        if (classNameComparison != 0) {
+            return classNameComparison;
+        }
+
+        Constant other = (Constant) o;
+        return value.compareTo(other.value);
     }
 
     @Override
@@ -24,24 +41,7 @@ final public class Constant extends ConstantExpression {
     }
 
     @Override
-    public String toString() {
-        return value.toString();
-    }
-
-    @Override
-    public Constant clone() {
-        return new Constant(value);
-    }
-
-    @Override
-    public int compareTo(Expression o) {
-        int classNameComparison = this.getClass().getSimpleName()
-            .compareTo(o.getClass().getSimpleName());
-        if (classNameComparison != 0) {
-            return classNameComparison;
-        }
-
-        Constant other = (Constant) o;
-        return value.compareTo(other.value);
+    public Integer eval() {
+        return value;
     }
 }

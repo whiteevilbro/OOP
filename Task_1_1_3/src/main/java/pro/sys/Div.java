@@ -13,6 +13,20 @@ public final class Div extends Operator {
     }
 
     @Override
+    public Expression clone() {
+        Expression[] subExpressionsClone = new Expression[subExpressions.length];
+        for (int i = 0; i < subExpressions.length; i++) {
+            subExpressionsClone[i] = subExpressions[i].clone();
+        }
+        return new Div(subExpressionsClone);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("(%s/%s)", subExpressions[0].toString(), subExpressions[1].toString());
+    }
+
+    @Override
     public Expression derivative(String reference) {
         return new Div(
             new Sub(
@@ -42,19 +56,5 @@ public final class Div extends Operator {
         }
 
         return new Div(left, right);
-    }
-
-    @Override
-    public String toString() {
-        return String.format("(%s/%s)", subExpressions[0].toString(), subExpressions[1].toString());
-    }
-
-    @Override
-    public Expression clone() {
-        Expression[] subExpressionsClone = new Expression[subExpressions.length];
-        for (int i = 0; i < subExpressions.length; i++) {
-            subExpressionsClone[i] = subExpressions[i].clone();
-        }
-        return new Div(subExpressionsClone);
     }
 }

@@ -2,7 +2,6 @@ package pro.sys;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -16,14 +15,27 @@ import org.junit.jupiter.api.Test;
 class VariableTest {
 
     @Test
-    void testVariable() {
-        assertDoesNotThrow(() -> new Variable("vArIaBlE_NaMe"));
-        assertThrows(IllegalArgumentException.class, () -> new Variable("9/11"));
+    void testBuild() {
+        assertThrows(UnsupportedOperationException.class, Variable::build);
     }
 
     @Test
-    void testBuild() {
-        assertThrows(UnsupportedOperationException.class, Variable::build);
+    void testClone() {
+        Variable expression = new Variable("x");
+        Expression simplifiedExpression = expression.simplify();
+        assertEquals(expression, simplifiedExpression);
+        assertEquals("x", simplifiedExpression.toString());
+        assertNotSame(expression, simplifiedExpression);
+    }
+
+    @Test
+    void testCompareTo() {
+        Variable expressionOne = new Variable("x");
+        Variable expressionTwo = new Variable("y");
+        Expression expressionThree = new Constant(1);
+        assertTrue(expressionOne.compareTo(expressionTwo) < 0);
+        assertTrue(expressionTwo.compareTo(expressionOne) > 0);
+        assertTrue(expressionOne.compareTo(expressionThree) > 0);
     }
 
     @Test
@@ -31,6 +43,20 @@ class VariableTest {
         Variable variable = new Variable("x");
         assertEquals("1", variable.derivative("x").toString());
         assertEquals("0", variable.derivative("y").toString());
+    }
+
+    @Test
+    @Order(Order.DEFAULT / 4 * 3)
+    void testEquals() {
+        Variable expressionOne = new Variable("x");
+        Variable expressionTwo = new Variable("x");
+        assertEquals(expressionOne, expressionTwo);
+        Variable expressionThree = new Variable("y");
+        assertNotEquals(expressionOne, expressionThree);
+        Expression expressionFour = new Constant(1);
+        assertNotEquals(expressionOne, expressionFour);
+
+        assertNotEquals(null, expressionOne);
     }
 
     @Test
@@ -65,35 +91,8 @@ class VariableTest {
     }
 
     @Test
-    void testClone() {
-        Variable expression = new Variable("x");
-        Expression simplifiedExpression = expression.simplify();
-        assertEquals(expression, simplifiedExpression);
-        assertEquals("x", simplifiedExpression.toString());
-        assertNotSame(expression, simplifiedExpression);
-    }
-
-    @Test
-    void testCompareTo() {
-        Variable expressionOne = new Variable("x");
-        Variable expressionTwo = new Variable("y");
-        Expression expressionThree = new Constant(1);
-        assertTrue(expressionOne.compareTo(expressionTwo) < 0);
-        assertTrue(expressionTwo.compareTo(expressionOne) > 0);
-        assertTrue(expressionOne.compareTo(expressionThree) > 0);
-    }
-
-    @Test
-    @Order(Order.DEFAULT / 4 * 3)
-    void testEquals() {
-        Variable expressionOne = new Variable("x");
-        Variable expressionTwo = new Variable("x");
-        assertEquals(expressionOne, expressionTwo);
-        Variable expressionThree = new Variable("y");
-        assertNotEquals(expressionOne, expressionThree);
-        Expression expressionFour = new Constant(1);
-        assertNotEquals(expressionOne, expressionFour);
-
-        assertNotEquals(null, expressionOne);
+    void testVariable() {
+        assertDoesNotThrow(() -> new Variable("vArIaBlE_NaMe"));
+        assertThrows(IllegalArgumentException.class, () -> new Variable("9/11"));
     }
 }

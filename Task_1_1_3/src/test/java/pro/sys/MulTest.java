@@ -10,6 +10,14 @@ import org.junit.jupiter.api.Test;
 class MulTest {
 
     @Test
+    void testClone() {
+        Expression expression = new Mul(new Constant(4), new Constant(3));
+        Expression clonedExpression = expression.clone();
+        assertEquals(expression, clonedExpression);
+        assertNotSame(expression, clonedExpression);
+    }
+
+    @Test
     void testDerivative() {
         Expression expression = new Mul(
             new Variable("x"),
@@ -17,21 +25,12 @@ class MulTest {
         );
         assertEquals("((x*(1+0))+(1*(x+y)))", expression.derivative("x").toString());
         assertEquals("((x*(0+1))+(0*(x+y)))", expression.derivative("y").toString());
-//        System.out.println(expression.derivative("x").simplify());
     }
 
     @Test
     void testEval() {
         Expression expression = new Mul(new Constant(4), new Constant(3));
         assertEquals(Integer.valueOf(12), expression.eval((HashMap<String, Integer>) null));
-    }
-
-    @Test
-    void testSimplifyConstant() {
-        Expression expression = new Mul(new Constant(4), new Constant(3));
-        Expression simplifiedExpression = expression.simplify();
-        assertEquals("12", simplifiedExpression.toString());
-        assertNotSame(expression, simplifiedExpression);
     }
 
     @Test
@@ -86,17 +85,17 @@ class MulTest {
     }
 
     @Test
+    void testSimplifyConstant() {
+        Expression expression = new Mul(new Constant(4), new Constant(3));
+        Expression simplifiedExpression = expression.simplify();
+        assertEquals("12", simplifiedExpression.toString());
+        assertNotSame(expression, simplifiedExpression);
+    }
+
+    @Test
     @Order(Order.DEFAULT / 2)
     void testToString() {
         Expression expression = new Mul(new Variable("t"), new Variable("g"));
         assertEquals("(t*g)", expression.toString());
-    }
-
-    @Test
-    void testClone() {
-        Expression expression = new Mul(new Constant(4), new Constant(3));
-        Expression clonedExpression = expression.clone();
-        assertEquals(expression, clonedExpression);
-        assertNotSame(expression, clonedExpression);
     }
 }

@@ -2,6 +2,7 @@ package pro.sys;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -63,6 +64,7 @@ class ConstantTest {
         Constant constantOne = new Constant(4);
         Constant constantTwo = new Constant(4);
         assertEquals(constantOne, constantTwo);
-        assertFalse(constantOne.equals(null));
+        assertNotEquals(null, constantOne);
+//        assertFalse(constantOne.equals(null));
     }
 }

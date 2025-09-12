@@ -12,12 +12,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 // It would've been generic, but there's no structural typing in java
-public sealed abstract class Expression implements Comparable<Expression>, Cloneable permits
+public abstract sealed class Expression implements Comparable<Expression>, Cloneable permits
     ConstantExpression, Operator, Variable {
 
     private static void processOperator(Stack<Expression> expressionStack, String operator)
         throws InvalidParameterException {
-        Expression left, right;
+        Expression left;
+        Expression right;
         try {
             right = expressionStack.pop();
             left = expressionStack.pop();
@@ -37,22 +38,20 @@ public sealed abstract class Expression implements Comparable<Expression>, Clone
             case "*":
                 expressionStack.push(new Mul(left, right));
                 break;
+            default:
+                throw new InvalidParameterException();
         }
     }
 
-    // Couldn't come up with expandable solution without some kind of builder class, but it would've to be friend to this class. But there's no friends in Java
+    // Couldn't come up with expandable solution without some kind of builder class,
+    // but it would've to be friend to this class. But there's no friends in Java.
     public static Expression build(String expression) throws InvalidParameterException {
         Stack<Expression> outStack = new Stack<>();
         Stack<String> tempStack = new Stack<>();
         Pattern pattern = Pattern.compile("(\\(|\\)|\\d+|[A-Za-z_]+|[+\\-*/])");
         Matcher matcher = pattern.matcher(expression);
 
-        Map<String, Integer> operatorPriorities = Map.of(
-            "+", 2,
-            "*", 1,
-            "/", 1,
-            "-", 2
-        );
+        Map<String, Integer> operatorPriorities = Map.of("+", 2, "*", 1, "/", 1, "-", 2);
 
         while (matcher.find()) {
             int start = matcher.start();
@@ -83,8 +82,8 @@ public sealed abstract class Expression implements Comparable<Expression>, Clone
                     case "*":
                         if (!tempStack.isEmpty()) {
                             String op = tempStack.peek();
-                            while (!op.equals("(") &&
-                                operatorPriorities.get(op) < operatorPriorities.get(argument)) {
+                            while (!op.equals("(")
+                                && operatorPriorities.get(op) < operatorPriorities.get(argument)) {
                                 tempStack.pop();
                                 processOperator(outStack, op);
                                 if (tempStack.isEmpty()) {
@@ -94,6 +93,9 @@ public sealed abstract class Expression implements Comparable<Expression>, Clone
                             }
                         }
                         tempStack.push(argument);
+                        break;
+                    default:
+                        throw new InvalidParameterException();
                 }
             }
 
@@ -110,11 +112,8 @@ public sealed abstract class Expression implements Comparable<Expression>, Clone
         return outStack.pop();
     }
 
-    public abstract Expression derivative(String reference);
-
-    public abstract Integer eval(HashMap<String, Integer> values);
-
-    public abstract Expression simplify();
+    @Override
+    public abstract Expression clone();
 
     @Override
     public abstract String toString();
@@ -123,6 +122,8 @@ public sealed abstract class Expression implements Comparable<Expression>, Clone
     public int compareTo(Expression o) {
         return this.getClass().getSimpleName().compareTo(o.getClass().getSimpleName());
     }
+
+    public abstract Expression derivative(String reference);
 
     /*
     @Override
@@ -144,10 +145,7 @@ public sealed abstract class Expression implements Comparable<Expression>, Clone
     }
      */
 
-    @Override
-    public abstract Expression clone();
-
-    // I didn't want to include following methods, but they're required in the task
+    public abstract Integer eval(HashMap<String, Integer> values);
 
     public Integer eval(String values) throws NumberFormatException {
         String[] varValues = values.split("\\s*;\\s*");
@@ -165,6 +163,8 @@ public sealed abstract class Expression implements Comparable<Expression>, Clone
         return eval(valueMap);
     }
 
+    // I didn't want to include following methods, but they're required in the task
+
     public final void print() throws IOException {
         print(System.out);
     }
@@ -172,4 +172,6 @@ public sealed abstract class Expression implements Comparable<Expression>, Clone
     public final void print(OutputStream io) throws IOException {
         io.write(toString().getBytes(StandardCharsets.UTF_8));
     }
+
+    public abstract Expression simplify();
 }

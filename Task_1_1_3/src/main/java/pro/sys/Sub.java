@@ -13,6 +13,20 @@ public final class Sub extends Operator {
     }
 
     @Override
+    public Sub clone() {
+        Expression[] subExpressionsClone = new Expression[subExpressions.length];
+        for (int i = 0; i < subExpressions.length; i++) {
+            subExpressionsClone[i] = subExpressions[i].clone();
+        }
+        return new Sub(subExpressionsClone);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("(%s-%s)", subExpressions[0].toString(), subExpressions[1].toString());
+    }
+
+    @Override
     public Expression derivative(String reference) {
         return new Sub(subExpressions[0].derivative(reference),
             subExpressions[1].derivative(reference));
@@ -37,19 +51,5 @@ public final class Sub extends Operator {
         }
 
         return new Sub(left, right);
-    }
-
-    @Override
-    public String toString() {
-        return String.format("(%s-%s)", subExpressions[0].toString(), subExpressions[1].toString());
-    }
-
-    @Override
-    public Sub clone() {
-        Expression[] subExpressionsClone = new Expression[subExpressions.length];
-        for (int i = 0; i < subExpressions.length; i++) {
-            subExpressionsClone[i] = subExpressions[i].clone();
-        }
-        return new Sub(subExpressionsClone);
     }
 }

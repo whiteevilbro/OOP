@@ -13,6 +13,20 @@ public final class Add extends Operator {
     }
 
     @Override
+    public Add clone() {
+        Expression[] subExpressionsClone = new Expression[subExpressions.length];
+        for (int i = 0; i < subExpressions.length; i++) {
+            subExpressionsClone[i] = subExpressions[i].clone();
+        }
+        return new Add(subExpressionsClone);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("(%s+%s)", subExpressions[0].toString(), subExpressions[1].toString());
+    }
+
+    @Override
     public Expression derivative(String reference) {
         return new Add(subExpressions[0].derivative(reference),
             subExpressions[1].derivative(reference));
@@ -37,19 +51,5 @@ public final class Add extends Operator {
             right = temp;
         }
         return new Add(left, right);
-    }
-
-    @Override
-    public String toString() {
-        return String.format("(%s+%s)", subExpressions[0].toString(), subExpressions[1].toString());
-    }
-
-    @Override
-    public Add clone() {
-        Expression[] subExpressionsClone = new Expression[subExpressions.length];
-        for (int i = 0; i < subExpressions.length; i++) {
-            subExpressionsClone[i] = subExpressions[i].clone();
-        }
-        return new Add(subExpressionsClone);
     }
 }
