@@ -167,12 +167,34 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="eval()">
-<h3>eval</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">eval</span>()</div>
+<section class="detail" id="clone()">
+<h3>clone</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Constant.html" title="class in pro.sys">Constant</a></span>&nbsp;<span class="element-name">clone</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="ConstantExpression.html#eval()">eval</a></code>&nbsp;in class&nbsp;<code><a href="ConstantExpression.html" title="class in pro.sys">ConstantExpression</a></code></dd>
+<dd><code><a href="Expression.html#clone()">clone</a></code>&nbsp;in class&nbsp;<code><a href="Expression.html" title="class in pro.sys">Expression</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="toString()">
+<h3>toString</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="Expression.html#toString()">toString</a></code>&nbsp;in class&nbsp;<code><a href="Expression.html" title="class in pro.sys">Expression</a></code></dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="compareTo(pro.sys.Expression)">
+<h3>compareTo</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">compareTo</span><wbr><span class="parameters">(<a href="Expression.html" title="class in pro.sys">Expression</a>&nbsp;o)</span></div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Comparable.html#compareTo(T)" title="class or interface in java.lang" class="external-link">compareTo</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;<a href="Expression.html" title="class in pro.sys">Expression</a>&gt;</code></dd>
+<dt>Overrides:</dt>
+<dd><code><a href="Expression.html#compareTo(pro.sys.Expression)">compareTo</a></code>&nbsp;in class&nbsp;<code><a href="Expression.html" title="class in pro.sys">Expression</a></code></dd>
 </dl>
 </section>
 </li>
@@ -197,34 +219,12 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="toString()">
-<h3>toString</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
+<section class="detail" id="eval()">
+<h3>eval</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Integer.html" title="class or interface in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">eval</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="Expression.html#toString()">toString</a></code>&nbsp;in class&nbsp;<code><a href="Expression.html" title="class in pro.sys">Expression</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="clone()">
-<h3>clone</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Constant.html" title="class in pro.sys">Constant</a></span>&nbsp;<span class="element-name">clone</span>()</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="Expression.html#clone()">clone</a></code>&nbsp;in class&nbsp;<code><a href="Expression.html" title="class in pro.sys">Expression</a></code></dd>
-</dl>
-</section>
-</li>
-<li>
-<section class="detail" id="compareTo(pro.sys.Expression)">
-<h3>compareTo</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">compareTo</span><wbr><span class="parameters">(<a href="Expression.html" title="class in pro.sys">Expression</a>&nbsp;o)</span></div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Comparable.html#compareTo(T)" title="class or interface in java.lang" class="external-link">compareTo</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;<a href="Expression.html" title="class in pro.sys">Expression</a>&gt;</code></dd>
-<dt>Overrides:</dt>
-<dd><code><a href="Expression.html#compareTo(pro.sys.Expression)">compareTo</a></code>&nbsp;in class&nbsp;<code><a href="Expression.html" title="class in pro.sys">Expression</a></code></dd>
+<dd><code><a href="ConstantExpression.html#eval()">eval</a></code>&nbsp;in class&nbsp;<code><a href="ConstantExpression.html" title="class in pro.sys">ConstantExpression</a></code></dd>
 </dl>
 </section>
 </li>
