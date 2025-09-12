@@ -21,7 +21,7 @@ public sealed abstract class Expression implements Comparable<Expression>, Clone
         try {
             right = expressionStack.pop();
             left = expressionStack.pop();
-        } catch (EmptyStackException _) {
+        } catch (EmptyStackException exception) {
             throw new IllegalArgumentException();
         }
         switch (operator) {
