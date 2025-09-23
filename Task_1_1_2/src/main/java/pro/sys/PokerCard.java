@@ -3,7 +3,7 @@ package pro.sys;
 import java.util.Map;
 
 /**
- * This is Pocker Card class
+ * This is Pocker Card class.
  */
 public class PokerCard extends Card {
 
@@ -37,6 +37,8 @@ public class PokerCard extends Card {
     }
 
     /**
+     * Get card face.
+     *
      * @return Face of the card.
      */
     public Face getFace() {
@@ -44,6 +46,8 @@ public class PokerCard extends Card {
     }
 
     /**
+     * Get card suit.
+     *
      * @return Suit of the card
      */
     public Suit getSuit() {

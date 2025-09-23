@@ -1,7 +1,7 @@
 package pro.sys;
 
 /**
- * This is abstract Card class
+ * This is abstract Card class.
  */
 public abstract class Card {
 

@@ -16,12 +16,7 @@ class MainTest {
 
     @Test
     void testInteractive() {
-        String inputString =
-            "y n" +
-                " y " + "y n" +
-                " y " +
-                " y " +
-                " y " + " n";
+        String inputString = "y n" + " y " + "y n" + " y " + " y " + " y " + " n";
         String expectedString = """
             Раунд 1
             Карты дилера:

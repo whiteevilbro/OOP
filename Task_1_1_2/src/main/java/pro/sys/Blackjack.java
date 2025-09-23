@@ -3,7 +3,7 @@ package pro.sys;
 import java.util.ArrayList;
 
 /**
- * This is Blackjack game glass
+ * This is Blackjack game glass.
  */
 public class Blackjack {
 
@@ -12,7 +12,7 @@ public class Blackjack {
     private final BlackjackHand player;
     private final Score score;
     /**
-     * Current round number
+     * Current round number.
      */
     public int round;
     private GameState gameState;
@@ -75,6 +75,8 @@ public class Blackjack {
     }
 
     /**
+     * Get known Dealer's hand value.
+     *
      * @return int, known dealer card value sum.
      */
     public int getDealerValue() {
@@ -85,6 +87,8 @@ public class Blackjack {
     }
 
     /**
+     * Get Dealers hand.
+     *
      * @return formatted String containig Dealer's cards.
      */
     public String getDealersHand() {
@@ -95,6 +99,8 @@ public class Blackjack {
     }
 
     /**
+     * Get Player hand value.
+     *
      * @return int Player card value sum.
      */
     public int getPlayerValue() {
@@ -102,6 +108,8 @@ public class Blackjack {
     }
 
     /**
+     * Get Player hand.
+     *
      * @return formatted String containig Player's cards.
      */
     public String getPlayersHand() {
@@ -109,6 +117,8 @@ public class Blackjack {
     }
 
     /**
+     * Get score of the game.
+     *
      * @return Score current score in this game.
      */
     public Score getScore() {
@@ -116,6 +126,8 @@ public class Blackjack {
     }
 
     /**
+     * Take one more card.
+     *
      * @return Result WIN/DRAW/LOSE/UNDEF depending on state of the game.
      */
     public Result hit() {
@@ -130,13 +142,17 @@ public class Blackjack {
     }
 
     /**
-     * @return boolean. False if game is not in progress.
+     * Check if game is in progress.
+     *
+     * @return boolean is game in progress
      */
     public boolean isInProgress() {
         return gameState == GameState.IN_PROGRESS;
     }
 
     /**
+     * Start new round.
+     *
      * @return Result WIN/DRAW/LOSE/UNDEF depending on state of the game.
      */
     public Result newRound() {
@@ -161,6 +177,8 @@ public class Blackjack {
     }
 
     /**
+     * Pass turn to the dealer and end the round.
+     *
      * @return Result WIN/DRAW/LOSE/UNDEF depending on state of the game.
      */
     public Result pass() {

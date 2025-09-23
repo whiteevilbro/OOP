@@ -18,6 +18,8 @@ public class BlackjackHand extends Hand<PokerCard> {
         Map.entry(PokerCard.Face.QUEEN, 10), Map.entry(PokerCard.Face.KING, 10));
 
     /**
+     * Evaluates hand.
+     *
      * @return Integes sum of all cards' values.
      */
     public Integer evaluate() {
@@ -42,6 +44,12 @@ public class BlackjackHand extends Hand<PokerCard> {
         return result;
     }
 
+
+    /**
+     * Format hand.
+     *
+     * @return String containig cards
+     */
     public String toString() {
         ArrayList<String> list = new ArrayList<>(cards.size());
         for (PokerCard card : cards) {
