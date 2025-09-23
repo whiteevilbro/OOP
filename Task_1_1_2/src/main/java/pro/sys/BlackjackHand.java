@@ -1,9 +1,14 @@
+package pro.sys;
+
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Blackjack specific hand class.
+ */
 public class BlackjackHand extends Hand<PokerCard> {
 
-    static Map<PokerCard.Face, Integer> faceToValue = Map.ofEntries(
+    static final Map<PokerCard.Face, Integer> faceToValue = Map.ofEntries(
         Map.entry(PokerCard.Face.ACE, 11),
         Map.entry(PokerCard.Face.TWO, 2), Map.entry(PokerCard.Face.THREE, 3),
         Map.entry(PokerCard.Face.FOUR, 4), Map.entry(PokerCard.Face.FIVE, 5),
@@ -12,12 +17,14 @@ public class BlackjackHand extends Hand<PokerCard> {
         Map.entry(PokerCard.Face.TEN, 10), Map.entry(PokerCard.Face.JACK, 10),
         Map.entry(PokerCard.Face.QUEEN, 10), Map.entry(PokerCard.Face.KING, 10));
 
-    @Override
+    /**
+     * @return Integes sum of all cards' values.
+     */
     public Integer evaluate() {
         return evaluate(0);
     }
 
-    public Integer evaluate(int skip) {
+    Integer evaluate(int skip) {
         Integer result = 0;
         int aceCount = 0;
         for (PokerCard card : cards.subList(skip, cards.size())) {
@@ -43,7 +50,7 @@ public class BlackjackHand extends Hand<PokerCard> {
         return list.toString();
     }
 
-    public String toString(int n, String placeholder) {
+    String toString(int n, String placeholder) {
         ArrayList<String> list = new ArrayList<>(cards.size());
         for (int i = 0; i < n; i++) {
             list.add(placeholder);

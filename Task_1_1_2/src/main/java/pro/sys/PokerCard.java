@@ -1,5 +1,10 @@
+package pro.sys;
+
 import java.util.Map;
 
+/**
+ * This is Pocker Card class
+ */
 public class PokerCard extends Card {
 
     private final Map<Face, String> facesLocale;
@@ -31,24 +36,102 @@ public class PokerCard extends Card {
         );
     }
 
+    /**
+     * @return Face of the card.
+     */
     public Face getFace() {
         return face;
     }
 
+    /**
+     * @return Suit of the card
+     */
     public Suit getSuit() {
         return suit;
     }
 
     public String toString() {
-        return String.format("%s %s", facesLocale.get(face), suitLocale.get(suit));
+        return String.format("%s %s", facesLocale.get(getFace()), suitLocale.get(getSuit()));
     }
 
+    /**
+     * PokerCard Face enumeration.
+     */
     public enum Face {
-        ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING
+        /**
+         * Ace face.
+         */
+        ACE,
+        /**
+         * Two face.
+         */
+        TWO,
+        /**
+         * Three face.
+         */
+        THREE,
+        /**
+         * Four face.
+         */
+        FOUR,
+        /**
+         * Five face.
+         */
+        FIVE,
+        /**
+         * Six face.
+         */
+        SIX,
+        /**
+         * Seven face.
+         */
+        SEVEN,
+        /**
+         * Eight face.
+         */
+        EIGHT,
+        /**
+         * Nine face.
+         */
+        NINE,
+        /**
+         * Ten face.
+         */
+        TEN,
+        /**
+         * Jack face.
+         */
+        JACK,
+        /**
+         * Queen face.
+         */
+        QUEEN,
+        /**
+         * King face.
+         */
+        KING
     }
 
+    /**
+     * PokerCard Suit enumeration.
+     */
     public enum Suit {
-        HEARTS, SPADES, DIAMONDS, CLUBS
+        /**
+         * Hearts suit.
+         */
+        HEARTS,
+        /**
+         * Spades suit.
+         */
+        SPADES,
+        /**
+         * Diamonds suit.
+         */
+        DIAMONDS,
+        /**
+         * Clubs suit.
+         */
+        CLUBS
     }
 
 }

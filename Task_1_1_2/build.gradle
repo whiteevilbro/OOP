@@ -29,14 +29,14 @@ javadoc.options.encoding = "UTF-8"
 jacocoTestReport {
     dependsOn test
 
-    afterEvaluate {
-        classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: [
-                    "**/Main.class"
-            ])
-        }))
-    }
 
+//    afterEvaluate {
+//        classDirectories.setFrom(files(classDirectories.files.collect {
+//            fileTree(dir: it, exclude: [
+//                    "**/Main.class"
+//            ])
+//        }))
+//    }
     reports {
         xml.required = true
     }

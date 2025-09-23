@@ -1,5 +1,10 @@
+package pro.sys;
+
 import java.util.ArrayList;
 
+/**
+ * This is deck of PockerCards class.
+ */
 public class PokerDeck extends Deck<PokerCard> {
 
     PokerDeck() {
