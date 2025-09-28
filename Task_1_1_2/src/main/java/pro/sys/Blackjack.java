@@ -28,10 +28,10 @@ public class Blackjack {
     }
 
     Blackjack(int n) {
-        this(construct_deck(n));
+        this(constructDeck(n));
     }
 
-    private static Deck<PokerCard> construct_deck(int n) {
+    private static Deck<PokerCard> constructDeck(int n) {
         ArrayList<PokerDeck> decks = new ArrayList<>(n);
         for (int i = 0; i < n; i++) {
             decks.add(new PokerDeck());

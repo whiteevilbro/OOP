@@ -24,9 +24,9 @@ public class PokerCard extends Card {
         this(face, suit,
             Map.ofEntries(
                 Map.entry(Face.ACE, "туз"), Map.entry(Face.TWO, "двойка"),
-                Map.entry(Face.THREE, "тройка"), Map.entry(Face.FOUR, "четвёрка"),
+                Map.entry(Face.THREE, "тройка"), Map.entry(Face.FOUR, "четверка"),
                 Map.entry(Face.FIVE, "пятерка"), Map.entry(Face.SIX, "шестерка"),
-                Map.entry(Face.SEVEN, "семёрка"), Map.entry(Face.EIGHT, "восьмерка"),
+                Map.entry(Face.SEVEN, "семерка"), Map.entry(Face.EIGHT, "восьмерка"),
                 Map.entry(Face.NINE, "девятка"), Map.entry(Face.TEN, "десятка"),
                 Map.entry(Face.JACK, "валет"), Map.entry(Face.QUEEN, "дама"),
                 Map.entry(Face.KING, "король")),

@@ -44,7 +44,7 @@ class BlackjackTest {
         assertEquals(10, blackjack.getDealerValue());
         assertEquals(17, blackjack.getPlayerValue());
         assertEquals("[Закрыто, десятка треф]", blackjack.getDealersHand());
-        assertEquals("[десятка треф, семёрка треф]", blackjack.getPlayersHand());
+        assertEquals("[десятка треф, семерка треф]", blackjack.getPlayersHand());
         assertTrue(blackjack.isInProgress());
         assertEquals(Result.LOSE, blackjack.pass());
         assertEquals(20, blackjack.getDealerValue());
