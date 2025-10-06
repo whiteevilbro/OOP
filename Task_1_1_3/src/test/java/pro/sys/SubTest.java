@@ -61,6 +61,11 @@ class SubTest {
         simplifiedExpression = expression.simplify();
         assertEquals("((a-c)-(b-d))", simplifiedExpression.toString());
         assertNotSame(expression, simplifiedExpression);
+
+        Expression subExpression1 = new Add(new Variable("x"), new Variable("y"));
+        Expression subExpression2 = new Add(new Variable("y"), new Variable("x"));
+        expression = new Sub(subExpression1, subExpression2);
+        assertEquals(new Constant(0), expression.simplify());
     }
 
     @Test

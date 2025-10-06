@@ -15,11 +15,6 @@ import org.junit.jupiter.api.Test;
 class VariableTest {
 
     @Test
-    void testBuild() {
-        assertThrows(UnsupportedOperationException.class, Variable::build);
-    }
-
-    @Test
     void testClone() {
         Variable expression = new Variable("x");
         Expression simplifiedExpression = expression.simplify();

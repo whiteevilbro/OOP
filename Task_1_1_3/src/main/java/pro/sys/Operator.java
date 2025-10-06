@@ -11,15 +11,6 @@ public abstract non-sealed class Operator extends Expression {
         this.subExpressions = subExpressions;
     }
 
-    /**
-     * Not supported.
-     *
-     * @throws UnsupportedOperationException if called
-     */
-    public static void build() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
-    }
-
     @Override
     public int compareTo(Expression o) throws NullPointerException {
         int classNameComparison = super.compareTo(o);
@@ -52,7 +43,7 @@ public abstract non-sealed class Operator extends Expression {
 
         Operator other = (Operator) o;
         if (subExpressions.length != other.subExpressions.length) {
-            throw new IllegalArgumentException();
+            return false;
         }
 
         boolean isSubExpressionEqual = true;

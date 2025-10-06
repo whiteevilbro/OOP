@@ -8,15 +8,6 @@ import java.util.HashMap;
  */
 public abstract non-sealed class ConstantExpression extends Expression {
 
-    /**
-     * Not supported.
-     *
-     * @throws UnsupportedOperationException if called
-     */
-    public static void build() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
-    }
-
     @Override
     public final boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

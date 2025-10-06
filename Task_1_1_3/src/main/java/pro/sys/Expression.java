@@ -19,80 +19,88 @@ import java.util.regex.Pattern;
 public abstract sealed class Expression implements Comparable<Expression>, Cloneable permits
     ConstantExpression, Operator, Variable {
 
+
     /**
-     * Builds expression from given string.
-     *
-     * @param expression string containing arithmetical expression
-     * @return Expression object built from given string
-     * @throws InvalidParameterException if given string is not valid arithmetic expression
+     * Expression builder class.
      */
-    // Couldn't come up with expandable solution without some kind of builder class,
-    // but it would've to be friend to this class. But there's no friends in Java.
-    public static Expression build(String expression) throws InvalidParameterException {
-        Stack<Expression> outStack = new Stack<>();
-        Stack<String> tempStack = new Stack<>();
-        Pattern pattern = Pattern.compile("(\\(|\\)|\\d+|[A-Za-z_]+|[+\\-*/])");
-        Matcher matcher = pattern.matcher(expression);
+    public static class Builder {
 
-        Map<String, Integer> operatorPriorities = Map.of("+", 2, "*", 1, "/", 1, "-", 2);
+        /**
+         * Builds expression from given string.
+         *
+         * @param expression string containing arithmetical expression
+         * @return Expression object built from given string
+         * @throws InvalidParameterException if given string is not valid arithmetic expression
+         */
+        // Couldn't come up with expandable solution without some kind of builder class,
+        // but it would've to be friend to this class. But there's no friends in Java.
+        public static Expression build(String expression) throws InvalidParameterException {
+            Stack<Expression> outStack = new Stack<>();
+            Stack<String> tempStack = new Stack<>();
+            Pattern pattern = Pattern.compile("(\\(|\\)|\\d+|[A-Za-z_]+|[+\\-*/])");
+            Matcher matcher = pattern.matcher(expression);
 
-        while (matcher.find()) {
-            int start = matcher.start();
-            int end = matcher.end();
-            String argument = expression.substring(start, end);
+            Map<String, Integer> operatorPriorities = Map.of("+", 2, "*", 1, "/", 1, "-", 2);
 
-            if (argument.matches("\\d+")) {
-                outStack.push(new Constant(Integer.parseInt(argument)));
-            } else if (argument.matches("[A-Za-z_]+")) {
-                outStack.push(new Variable(argument));
-            } else {
-                switch (argument) {
-                    case "(":
-                        tempStack.push("(");
-                        break;
-                    case ")":
-                        while (!tempStack.isEmpty()) {
-                            argument = tempStack.pop();
-                            if (argument.equals("(")) {
-                                break;
-                            }
-                            processOperator(outStack, argument);
-                        }
-                        break;
-                    case "+":
-                    case "-":
-                    case "/":
-                    case "*":
-                        if (!tempStack.isEmpty()) {
-                            String op = tempStack.peek();
-                            while (!op.equals("(")
-                                && operatorPriorities.get(op) < operatorPriorities.get(argument)) {
-                                tempStack.pop();
-                                processOperator(outStack, op);
-                                if (tempStack.isEmpty()) {
+            while (matcher.find()) {
+                int start = matcher.start();
+                int end = matcher.end();
+                String argument = expression.substring(start, end);
+
+                if (argument.matches("\\d+")) {
+                    outStack.push(new Constant(Integer.parseInt(argument)));
+                } else if (argument.matches("[A-Za-z_]+")) {
+                    outStack.push(new Variable(argument));
+                } else {
+                    switch (argument) {
+                        case "(":
+                            tempStack.push("(");
+                            break;
+                        case ")":
+                            while (!tempStack.isEmpty()) {
+                                argument = tempStack.pop();
+                                if (argument.equals("(")) {
                                     break;
                                 }
-                                op = tempStack.peek();
+                                processOperator(outStack, argument);
                             }
-                        }
-                        tempStack.push(argument);
-                        break;
-                    default:
-                        throw new InvalidParameterException();
+                            break;
+                        case "+":
+                        case "-":
+                        case "/":
+                        case "*":
+                            if (!tempStack.isEmpty()) {
+                                String op = tempStack.peek();
+                                while (!op.equals("(")
+                                    && operatorPriorities.get(op) < operatorPriorities.get(
+                                    argument)) {
+                                    tempStack.pop();
+                                    processOperator(outStack, op);
+                                    if (tempStack.isEmpty()) {
+                                        break;
+                                    }
+                                    op = tempStack.peek();
+                                }
+                            }
+                            tempStack.push(argument);
+                            break;
+                        default:
+                            throw new InvalidParameterException();
+                    }
                 }
+
             }
 
-        }
+            while (!tempStack.isEmpty()) {
+                processOperator(outStack, tempStack.pop());
+            }
 
-        while (!tempStack.isEmpty()) {
-            processOperator(outStack, tempStack.pop());
-        }
+            if (outStack.size() != 1) {
+                throw new InvalidParameterException();
+            }
 
-        if (outStack.size() != 1) {
-            throw new InvalidParameterException();
+            return outStack.pop();
         }
-
-        return outStack.pop();
     }
 
     private static void processOperator(Stack<Expression> expressionStack, String operator)
@@ -129,6 +137,14 @@ public abstract sealed class Expression implements Comparable<Expression>, Clone
     @Override
     public abstract String toString();
 
+    /**
+     * Transitive, anyisymmetric relation. Based on natural (lexicographical) order of descendants'
+     * class simple name {@code object.getClass().getSimpleName()}.
+     *
+     * @param o other Expression.
+     * @return {@code 0} if Expression are of the same type, value less than {@code 0} if this class
+     * preceseeds {@code o} in given order, value greater than {@code 0} otherwise.
+     */
     @Override
     public int compareTo(Expression o) {
         return this.getClass().getSimpleName().compareTo(o.getClass().getSimpleName());

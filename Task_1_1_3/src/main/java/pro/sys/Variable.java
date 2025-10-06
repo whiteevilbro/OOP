@@ -24,15 +24,6 @@ public final class Variable extends Expression {
         this.name = name;
     }
 
-    /**
-     * Not supported.
-     *
-     * @throws UnsupportedOperationException if called
-     */
-    public static void build() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
-    }
-
     @Override
     public Expression clone() {
         return new Variable(name);
