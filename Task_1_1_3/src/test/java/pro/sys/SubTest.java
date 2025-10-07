@@ -21,14 +21,16 @@ class SubTest {
     void testDerivative() {
         Expression expression = new Sub(new Constant(4), new Variable("x"));
         Expression derivative = expression.derivative("x");
-        assertEquals("(0-1)", derivative.toString());
+        Expression expectedExpression = new Sub(new Constant(0), new Constant(1));
+        assertEquals(expectedExpression, derivative);
     }
 
     @Test
     void testDerivativeConstant() {
         Expression expression = new Sub(new Constant(4), new Constant(3));
         Expression derivative = expression.derivative("x");
-        assertEquals("(0-0)", derivative.toString());
+        Expression expectedExpression = new Sub(new Constant(0), new Constant(0));
+        assertEquals(expectedExpression, derivative);
     }
 
     @Test
@@ -41,25 +43,29 @@ class SubTest {
     void testSimplify() {
         Expression expression = new Sub(new Variable("x"), new Variable("x"));
         Expression simplifiedExpression = expression.simplify();
-        assertEquals("0", simplifiedExpression.toString());
+
+        Expression expectedExpression = new Constant(0);
+        assertEquals(expectedExpression, simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
 
         expression = new Sub(new Variable("s"), new Constant(3));
         simplifiedExpression = expression.simplify();
-        assertEquals("(s-3)", simplifiedExpression.toString());
+        expectedExpression = new Sub(new Variable("s"), new Constant(3));
+        assertEquals(expectedExpression, simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
 
         expression = new Sub(new Constant(3), new Variable("s"));
         simplifiedExpression = expression.simplify();
-        assertEquals("(3-s)", simplifiedExpression.toString());
+        expectedExpression = new Sub(new Constant(3), new Variable("s"));
+        assertEquals(expectedExpression, simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
 
-        expression = new Sub(
-            new Sub(new Variable("a"), new Variable("c")),
-            new Sub(new Variable("b"), new Variable("d"))
-        );
+        expression = new Sub(new Sub(new Variable("a"), new Variable("c")),
+            new Sub(new Variable("b"), new Variable("d")));
         simplifiedExpression = expression.simplify();
-        assertEquals("((a-c)-(b-d))", simplifiedExpression.toString());
+        expectedExpression = new Sub(new Sub(new Variable("a"), new Variable("c")),
+            new Sub(new Variable("b"), new Variable("d")));
+        assertEquals(expectedExpression, simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
 
         Expression subExpression1 = new Add(new Variable("x"), new Variable("y"));
@@ -72,7 +78,7 @@ class SubTest {
     void testSimplifyConstant() {
         Expression expression = new Sub(new Constant(4), new Constant(3));
         Expression simplifiedExpression = expression.simplify();
-        assertEquals("1", simplifiedExpression.toString());
+        assertEquals(new Constant(1), simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
     }
 

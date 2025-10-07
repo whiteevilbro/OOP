@@ -19,12 +19,17 @@ class MulTest {
 
     @Test
     void testDerivative() {
-        Expression expression = new Mul(
-            new Variable("x"),
-            new Add(new Variable("x"), new Variable("y"))
-        );
-        assertEquals("((x*(1+0))+(1*(x+y)))", expression.derivative("x").toString());
-        assertEquals("((x*(0+1))+(0*(x+y)))", expression.derivative("y").toString());
+        Expression expression = new Mul(new Variable("x"),
+            new Add(new Variable("x"), new Variable("y")));
+        Expression expectedExpression = new Add(
+            new Mul(new Variable("x"), new Add(new Constant(1), new Constant(0))),
+            new Mul(new Constant(1), new Add(new Variable("x"), new Variable("y"))));
+        assertEquals(expectedExpression, expression.derivative("x"));
+
+        expectedExpression = new Add(
+            new Mul(new Variable("x"), new Add(new Constant(0), new Constant(1))),
+            new Mul(new Constant(0), new Add(new Variable("x"), new Variable("y"))));
+        assertEquals(expectedExpression, expression.derivative("y"));
     }
 
     @Test
@@ -35,52 +40,45 @@ class MulTest {
 
     @Test
     void testSimplify() {
-        Expression expression = new Mul(
-            new Mul(new Variable("b"), new Variable("d")),
-            new Mul(new Variable("a"), new Variable("c"))
-        );
+        Expression expression = new Mul(new Mul(new Variable("b"), new Variable("d")),
+            new Mul(new Variable("a"), new Variable("c")));
         Expression simplifiedExpression = expression.simplify();
-        assertEquals("((a*c)*(b*d))", simplifiedExpression.toString());
+
+        Expression expectedExpression = new Mul(new Mul(new Variable("a"), new Variable("c")),
+            new Mul(new Variable("b"), new Variable("d")));
+        assertEquals(expectedExpression, simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
 
-        expression = new Mul(
-            new Mul(new Variable("a"), new Variable("b")),
-            new Mul(new Variable("c"), new Variable("d"))
-        );
+        expression = new Mul(new Mul(new Variable("a"), new Variable("b")),
+            new Mul(new Variable("c"), new Variable("d")));
         simplifiedExpression = expression.simplify();
-        assertEquals("((a*b)*(c*d))", simplifiedExpression.toString());
+
+        expectedExpression = new Mul(new Mul(new Variable("a"), new Variable("b")),
+            new Mul(new Variable("c"), new Variable("d")));
+        assertEquals(expectedExpression, simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
 
-        expression = new Mul(
-            new Constant(0),
-            new Variable("x")
-        );
+        expression = new Mul(new Constant(0), new Variable("x"));
         simplifiedExpression = expression.simplify();
-        assertEquals("0", simplifiedExpression.toString());
+        assertEquals(new Constant(0), simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
 
-        expression = new Mul(
-            new Constant(1),
-            new Mul(new Variable("x"), new Constant(3))
-        );
+        expression = new Mul(new Constant(1), new Mul(new Variable("x"), new Constant(3)));
         simplifiedExpression = expression.simplify();
-        assertEquals("(3*x)", simplifiedExpression.toString());
+
+        expectedExpression = new Mul(new Constant(3), new Variable("x"));
+        assertEquals(expectedExpression, simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
 
-        expression = new Mul(
-            new Variable("x"),
-            new Constant(0)
-        );
+        expression = new Mul(new Variable("x"), new Constant(0));
         simplifiedExpression = expression.simplify();
-        assertEquals("0", simplifiedExpression.toString());
+        assertEquals(new Constant(0), simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
 
-        expression = new Mul(
-            new Mul(new Constant(3), new Variable("x")),
-            new Constant(1)
-        );
+        expression = new Mul(new Mul(new Constant(3), new Variable("x")), new Constant(1));
         simplifiedExpression = expression.simplify();
-        assertEquals("(3*x)", simplifiedExpression.toString());
+        expectedExpression = new Mul(new Constant(3), new Variable("x"));
+        assertEquals(expectedExpression, simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
     }
 
@@ -88,7 +86,7 @@ class MulTest {
     void testSimplifyConstant() {
         Expression expression = new Mul(new Constant(4), new Constant(3));
         Expression simplifiedExpression = expression.simplify();
-        assertEquals("12", simplifiedExpression.toString());
+        assertEquals(new Constant(12), simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
     }
 

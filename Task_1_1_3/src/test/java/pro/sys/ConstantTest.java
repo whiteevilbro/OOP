@@ -15,8 +15,8 @@ class ConstantTest {
         Constant expression = new Constant(4);
         Expression simplifiedExpression = expression.simplify();
         assertEquals(expression, simplifiedExpression);
-        assertEquals("4", expression.toString());
-        assertEquals("4", simplifiedExpression.toString());
+        assertEquals(new Constant(4), expression);
+        assertEquals(new Constant(4), simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
     }
 
@@ -32,7 +32,7 @@ class ConstantTest {
     @Test
     void testDerivative() {
         Constant expression = new Constant(4);
-        assertEquals("0", expression.derivative("").toString());
+        assertEquals(new Constant(0), expression.derivative(""));
     }
 
     @Test
@@ -56,7 +56,7 @@ class ConstantTest {
         Constant expression = new Constant(4);
         Expression simplifiedExpression = expression.simplify();
         assertEquals(expression, simplifiedExpression);
-        assertEquals("4", simplifiedExpression.toString());
+        assertEquals(new Constant(4), simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
     }
 

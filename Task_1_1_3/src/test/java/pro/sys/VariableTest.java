@@ -19,7 +19,7 @@ class VariableTest {
         Variable expression = new Variable("x");
         Expression simplifiedExpression = expression.simplify();
         assertEquals(expression, simplifiedExpression);
-        assertEquals("x", simplifiedExpression.toString());
+        assertEquals(new Variable("x"), simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
     }
 
@@ -36,8 +36,8 @@ class VariableTest {
     @Test
     void testDerivative() {
         Variable variable = new Variable("x");
-        assertEquals("1", variable.derivative("x").toString());
-        assertEquals("0", variable.derivative("y").toString());
+        assertEquals(new Constant(1), variable.derivative("x"));
+        assertEquals(new Constant(0), variable.derivative("y"));
     }
 
     @Test
@@ -74,7 +74,7 @@ class VariableTest {
         Variable expression = new Variable("x");
         Expression simplifiedExpression = expression.simplify();
         assertEquals(expression, simplifiedExpression);
-        assertEquals("x", simplifiedExpression.toString());
+        assertEquals(new Variable("x"), simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
     }
 

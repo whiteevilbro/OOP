@@ -37,14 +37,16 @@ class AddTest {
     void testDerivative() {
         Expression expression = new Add(new Constant(4), new Variable("x"));
         Expression derivative = expression.derivative("x");
-        assertEquals("(0+1)", derivative.toString());
+        Expression expectedExpression = new Add(new Constant(0), new Constant(1));
+        assertEquals(expectedExpression, derivative);
     }
 
     @Test
     void testDerivativeConstant() {
         Expression expression = new Add(new Constant(4), new Constant(3));
         Expression derivative = expression.derivative("x");
-        assertEquals("(0+0)", derivative.toString());
+        Expression expectedExpression = new Add(new Constant(0), new Constant(0));
+        assertEquals(expectedExpression, derivative);
     }
 
     @Test
@@ -69,22 +71,24 @@ class AddTest {
 
     @Test
     void testSimplify() {
-        Expression expression = new Add(
-            new Add(new Variable("b"), new Variable("d")),
-            new Add(new Variable("a"), new Variable("c"))
-        );
+        Expression expression = new Add(new Add(new Variable("b"), new Variable("d")),
+            new Add(new Variable("a"), new Variable("c")));
         Expression simplifiedExpression = expression.simplify();
-        assertEquals("((a+c)+(b+d))", simplifiedExpression.toString());
+        Expression expectedExpression = new Add(new Add(new Variable("a"), new Variable("c")),
+            new Add(new Variable("b"), new Variable("d")));
+        assertEquals(expectedExpression, simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
 
         expression = new Add(new Variable("s"), new Constant(3));
         simplifiedExpression = expression.simplify();
-        assertEquals("(3+s)", simplifiedExpression.toString());
+        expectedExpression = new Add(new Constant(3), new Variable("s"));
+        assertEquals(expectedExpression, simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
 
         expression = new Add(new Constant(3), new Variable("s"));
         simplifiedExpression = expression.simplify();
-        assertEquals("(3+s)", simplifiedExpression.toString());
+        expectedExpression = new Add(new Constant(3), new Variable("s"));
+        assertEquals(expectedExpression, simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
     }
 
@@ -92,17 +96,16 @@ class AddTest {
     void testSimplifyConstant() {
         Expression expression = new Add(new Constant(4), new Constant(3));
         Expression simplifiedExpression = expression.simplify();
-        assertEquals("7", simplifiedExpression.toString());
+        Expression expectedExpression = new Constant(7);
+        assertEquals(expectedExpression, simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
     }
 
     @Test
     @Order(Order.DEFAULT / 2)
     void testToString() {
-        Expression expression = new Add(
-            new Add(new Variable("b"), new Variable("d")),
-            new Add(new Variable("a"), new Variable("c"))
-        );
+        Expression expression = new Add(new Add(new Variable("b"), new Variable("d")),
+            new Add(new Variable("a"), new Variable("c")));
         assertEquals("((b+d)+(a+c))", expression.toString());
     }
 }

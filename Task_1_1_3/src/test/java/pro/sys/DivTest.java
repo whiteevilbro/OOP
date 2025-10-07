@@ -20,10 +20,25 @@ class DivTest {
     @Test
     void testDerivative() {
         Expression expression = new Div(new Variable("x"), new Variable("y"));
-        assertEquals("(((1*y)-(x*0))/(y*y))", expression.derivative("x").toString());
+        Expression expectedExpression = new Div(
+            new Sub(
+                new Mul(new Constant(1), new Variable("y")),
+                new Mul(new Variable("x"), new Constant(0))
+            ),
+            new Mul(new Variable("y"), new Variable("y"))
+        );
+
+        assertEquals(expectedExpression, expression.derivative("x"));
 
         expression = new Div(new Variable("x"), new Variable("x"));
-        assertEquals("(((1*x)-(x*1))/(x*x))", expression.derivative("x").toString());
+        expectedExpression = new Div(
+            new Sub(
+                new Mul(new Constant(1), new Variable("x")),
+                new Mul(new Variable("x"), new Constant(1))
+            ),
+            new Mul(new Variable("x"), new Variable("x"))
+        );
+        assertEquals(expectedExpression, expression.derivative("x"));
     }
 
     @Test
@@ -39,12 +54,13 @@ class DivTest {
     void testSimplify() {
         Expression expression = new Div(new Variable("x"), new Variable("x"));
         Expression simplifiedExpression = expression.simplify();
-        assertEquals("1", simplifiedExpression.toString());
+        assertEquals(new Constant(1), simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
 
         expression = new Div(new Variable("x"), new Variable("y"));
         simplifiedExpression = expression.simplify();
-        assertEquals("(x/y)", simplifiedExpression.toString());
+        Expression expectedExpression = new Div(new Variable("x"), new Variable("y"));
+        assertEquals(expectedExpression, simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
     }
 
@@ -52,7 +68,7 @@ class DivTest {
     void testSimplifyConstant() {
         Expression expression = new Div(new Constant(6), new Constant(3));
         Expression simplifiedExpression = expression.simplify();
-        assertEquals("2", simplifiedExpression.toString());
+        assertEquals(new Constant(2), simplifiedExpression);
         assertNotSame(expression, simplifiedExpression);
     }
 
