@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-@SuppressWarnings("DuplicateExpressions")
+@SuppressWarnings({"DuplicateExpressions", "SequencedCollectionMethodCanBeUsed"})
 class GraphTest {
 
     static Stream<Class<? extends Graph>> get_implementations() {
@@ -261,7 +261,7 @@ class GraphTest {
         expected = """
             0 ->
             """.strip().replace("\r\n", "\n");
-        graph.deleteVertex(graph.getVertices().getFirst());
+        graph.deleteVertex(graph.getVertices().get(0));
         assertEquals(expected, graph.toString().strip().replace("\r\n", "\n"));
 
         int vertexFalse = vertex + vertexTwo + 1;
