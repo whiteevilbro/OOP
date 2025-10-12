@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
 /**
  * Incidence matrix graph interface implementation.
  */
+@SuppressWarnings("SequencedCollectionMethodCanBeUsed")
 public class IncidenceMatrixGraph implements Graph {
 
     final ArrayList<ArrayList<Integer>> matrix = new ArrayList<>();
@@ -34,7 +35,7 @@ public class IncidenceMatrixGraph implements Graph {
     public int addVertex() {
         ArrayList<Integer> vertex = new ArrayList<>();
         matrix.add(vertex);
-        for (int i = 0; i < matrix.getFirst().size(); i++) {
+        for (int i = 0; i < matrix.get(0).size(); i++) {
             vertex.add(0);
         }
         return size() - 1;
@@ -45,7 +46,7 @@ public class IncidenceMatrixGraph implements Graph {
         if (from < 0 || from >= size() || to < 0 || to >= size()) {
             throw new NoSuchElementException();
         }
-        for (int i = 0; i < matrix.getFirst().size(); i++) {
+        for (int i = 0; i < matrix.get(0).size(); i++) {
             if (matrix.get(from).get(i) == -1 && matrix.get(to).get(i) == 1) {
                 for (int j = 0; j < size(); j++) {
                     matrix.get(j).remove(i);

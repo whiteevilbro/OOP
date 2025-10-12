@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
 /**
  * Adjacency matrix graph interface implementation.
  */
+@SuppressWarnings("SequencedCollectionMethodCanBeUsed")
 public class AdjacencyMatrixGraph implements Graph {
 
     final ArrayList<ArrayList<Boolean>> matrix = new ArrayList<>();
@@ -29,7 +30,7 @@ public class AdjacencyMatrixGraph implements Graph {
         }
         matrix.add(new ArrayList<>());
         for (int i = 0; i < size(); i++) {
-            matrix.getLast().add(false);
+            matrix.get(matrix.size() - 1).add(false);
         }
         return size() - 1;
     }

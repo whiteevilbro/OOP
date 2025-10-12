@@ -50,8 +50,10 @@ class GraphTest {
         Graph graph;
         try {
             graph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
+        } catch (InstantiationException
+                 | IllegalAccessException
+                 | InvocationTargetException
+                 | NoSuchMethodException e) {
             fail();
             return;
         }
@@ -80,8 +82,10 @@ class GraphTest {
         try {
             graph = graphclass.getDeclaredConstructor().newInstance();
             graphExpected = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
+        } catch (InstantiationException
+                 | IllegalAccessException
+                 | InvocationTargetException
+                 | NoSuchMethodException e) {
             fail();
             return;
         }
@@ -103,8 +107,10 @@ class GraphTest {
         Graph graph;
         try {
             graph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
+        } catch (InstantiationException
+                 | IllegalAccessException
+                 | InvocationTargetException
+                 | NoSuchMethodException e) {
             fail();
             return;
         }
@@ -136,8 +142,10 @@ class GraphTest {
         try {
             graph = graphclass.getDeclaredConstructor().newInstance();
             builded = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
+        } catch (InstantiationException
+                 | IllegalAccessException
+                 | InvocationTargetException
+                 | NoSuchMethodException e) {
             fail();
             return;
         }
@@ -169,8 +177,10 @@ class GraphTest {
         Graph graph;
         try {
             graph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
+        } catch (InstantiationException
+                 | IllegalAccessException
+                 | InvocationTargetException
+                 | NoSuchMethodException e) {
             fail();
             return;
         }
@@ -203,8 +213,10 @@ class GraphTest {
         try {
             graph = graphclass.getDeclaredConstructor().newInstance();
             expectedGraph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
+        } catch (InstantiationException
+                 | IllegalAccessException
+                 | InvocationTargetException
+                 | NoSuchMethodException e) {
             fail();
             return;
         }
@@ -229,8 +241,10 @@ class GraphTest {
         Graph graph;
         try {
             graph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
+        } catch (InstantiationException
+                 | IllegalAccessException
+                 | InvocationTargetException
+                 | NoSuchMethodException e) {
             fail();
             return;
         }
@@ -262,8 +276,10 @@ class GraphTest {
         try {
             graph = graphclass.getDeclaredConstructor().newInstance();
             graphTwo = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
+        } catch (InstantiationException
+                 | IllegalAccessException
+                 | InvocationTargetException
+                 | NoSuchMethodException e) {
             fail();
             return;
         }
@@ -276,7 +292,7 @@ class GraphTest {
         graphTwo.addDirectedEdge(vertex10, vertex11);
 
         assertEquals(graph, graphTwo);
-        int vertex02 = graph.addVertex();
+        final int vertex02 = graph.addVertex();
 
         assertNotEquals(graph, graphTwo);
 
@@ -298,8 +314,10 @@ class GraphTest {
         Graph graph;
         try {
             graph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
+        } catch (InstantiationException
+                 | IllegalAccessException
+                 | InvocationTargetException
+                 | NoSuchMethodException e) {
             fail();
             return;
         }
@@ -323,8 +341,10 @@ class GraphTest {
         Graph graph;
         try {
             graph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
+        } catch (InstantiationException
+                 | IllegalAccessException
+                 | InvocationTargetException
+                 | NoSuchMethodException e) {
             fail();
             return;
         }
@@ -344,8 +364,10 @@ class GraphTest {
         Graph graph;
         try {
             graph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
+        } catch (InstantiationException
+                 | IllegalAccessException
+                 | InvocationTargetException
+                 | NoSuchMethodException e) {
             fail();
             return;
         }
@@ -364,8 +386,10 @@ class GraphTest {
         Graph graph;
         try {
             graph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
+        } catch (InstantiationException
+                 | IllegalAccessException
+                 | InvocationTargetException
+                 | NoSuchMethodException e) {
             fail();
             return;
         }
@@ -376,7 +400,7 @@ class GraphTest {
 
         assertEquals(expected, graph.toString().strip().replace("\r\n", "\n"));
 
-        int vertexTwo = graph.addVertex();
+        final int vertexTwo = graph.addVertex();
         expected = """
             0 ->
             1 ->
@@ -407,8 +431,10 @@ class GraphTest {
         Graph graph;
         try {
             graph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
+        } catch (InstantiationException
+                 | IllegalAccessException
+                 | InvocationTargetException
+                 | NoSuchMethodException e) {
             fail();
             return;
         }
