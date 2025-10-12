@@ -393,7 +393,7 @@ class GraphTest {
             fail();
             return;
         }
-        int vertexOne = graph.addVertex();
+        final int vertexOne = graph.addVertex();
         String expected = """
             0 ->
             """.strip().replace("\r\n", "\n");
