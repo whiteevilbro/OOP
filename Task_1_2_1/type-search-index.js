@@ -1,1 +1,1 @@
-typeSearchIndex = [{"p":"pro.sys","l":"AdjacencyMatrixGraph"},{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"pro.sys","l":"EdgeListGraph"},{"p":"pro.sys","l":"Graph"},{"p":"pro.sys","l":"IncidenceMatrixGraph"}];updateSearchResults();
+typeSearchIndex = [{"p":"pro.sys","l":"AdjacencyMatrixGraph"},{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"pro.sys","l":"EdgeListGraph"},{"p":"pro.sys","l":"Graph"},{"p":"pro.sys","l":"IncidenceMatrixGraph"},{"p":"pro.sys","l":"Graph.Vertex"}];updateSearchResults();
