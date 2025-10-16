@@ -5,7 +5,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.IntStream;
 
 /**
  * Adjacency matrix graph interface implementation.
@@ -13,69 +12,72 @@ import java.util.stream.IntStream;
 @SuppressWarnings("SequencedCollectionMethodCanBeUsed")
 public class AdjacencyMatrixGraph implements Graph {
 
-    final ArrayList<ArrayList<Boolean>> matrix = new ArrayList<>();
+    private final ArrayList<ArrayList<Boolean>> matrix = new ArrayList<>();
+    private final ArrayList<Vertex> vertices = new ArrayList<>();
 
     @Override
-    public void addDirectedEdge(int from, int to) throws NoSuchElementException {
-        if (from < 0 || from >= size() || to < 0 || to >= size()) {
+    public void addDirectedEdge(Vertex from, Vertex to) throws NoSuchElementException {
+        if (!vertices.contains(from) || !vertices.contains(to)) {
             throw new NoSuchElementException();
         }
-        matrix.get(from).set(to, true);
+        matrix.get(vertices.indexOf(from)).set(vertices.indexOf(to), true);
     }
 
     @Override
-    public int addVertex() {
+    public Vertex addVertex() {
         for (int i = 0; i < size(); i++) {
             matrix.get(i).add(false);
         }
         matrix.add(new ArrayList<>());
+        vertices.add(new Vertex());
         for (int i = 0; i < size(); i++) {
             matrix.get(matrix.size() - 1).add(false);
         }
-        return size() - 1;
+        return vertices.get(size() - 1);
     }
 
     @Override
-    public void deleteDirectedEdge(int from, int to) throws NoSuchElementException {
-        if (from < 0 || from >= size() || to < 0 || to >= size()) {
+    public void deleteDirectedEdge(Vertex from, Vertex to) throws NoSuchElementException {
+        if (!vertices.contains(from) || !vertices.contains(to)) {
             throw new NoSuchElementException();
         }
-        matrix.get(from).set(to, false);
+        matrix.get(vertices.indexOf(from)).set(vertices.indexOf(to), false);
     }
 
     @Override
-    public void deleteVertex(int vertex) throws NoSuchElementException {
-        if (size() <= vertex || vertex < 0) {
+    public void deleteVertex(Vertex vertex) throws NoSuchElementException {
+        if (!vertices.contains(vertex)) {
             throw new NoSuchElementException();
         }
-        matrix.remove(vertex);
+        matrix.remove(vertices.indexOf(vertex));
+        for (int i = 0; i < size() - 1; i++) {
+            matrix.get(i).remove(vertices.indexOf(vertex));
+        }
+        vertices.remove(vertex);
+    }
+
+    @Override
+    public List<Vertex> getNeighbours(Vertex vertex) throws NoSuchElementException {
+        if (!vertices.contains(vertex)) {
+            throw new NoSuchElementException();
+        }
+        ArrayList<Vertex> result = new ArrayList<>();
         for (int i = 0; i < size(); i++) {
-            matrix.get(i).remove(vertex);
-        }
-    }
-
-    @Override
-    public List<Integer> getNeighbours(int vertex) throws NoSuchElementException {
-        if (size() <= vertex || vertex < 0) {
-            throw new NoSuchElementException();
-        }
-        ArrayList<Integer> result = new ArrayList<>();
-        for (int i = 0; i < size(); i++) {
-            if (matrix.get(vertex).get(i)) {
-                result.add(i);
+            if (matrix.get(vertices.indexOf(vertex)).get(i)) {
+                result.add(vertices.get(i));
             }
         }
         return result;
     }
 
     @Override
-    public List<Integer> getVertices() {
-        return IntStream.range(0, size()).boxed().toList();
+    public List<Vertex> getVertices() {
+        return new ArrayList<>(vertices);
     }
 
     @Override
     public int size() {
-        return matrix.size();
+        return vertices.size();
     }
 
     @Override
@@ -86,15 +88,15 @@ public class AdjacencyMatrixGraph implements Graph {
         if (size() != other.size()) {
             return false;
         }
-        List<Integer> thisVertices = getVertices();
-        List<Integer> otherVertices = other.getVertices();
+        List<Vertex> thisVertices = getVertices();
+        List<Vertex> otherVertices = other.getVertices();
         for (int i = 0; i < size(); i++) {
-            List<Integer> thisNeighbours = getNeighbours(thisVertices.get(i));
-            List<Integer> otherNeighbours = other.getNeighbours(otherVertices.get(i));
+            List<Vertex> thisNeighbours = getNeighbours(thisVertices.get(i));
+            List<Vertex> otherNeighbours = other.getNeighbours(otherVertices.get(i));
             if (thisNeighbours.size() != otherNeighbours.size()) {
                 return false;
             }
-            for (Integer thisNeighbour : thisNeighbours) {
+            for (Vertex thisNeighbour : thisNeighbours) {
                 if (!otherNeighbours.contains(
                     otherVertices.get(thisVertices.indexOf(thisNeighbour)))) {
                     return false;
@@ -108,12 +110,12 @@ public class AdjacencyMatrixGraph implements Graph {
     public String toString() {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(stream);
-        for (int i : getVertices()) {
-            out.print(i);
+        for (Vertex i : getVertices()) {
+            out.print(vertices.indexOf(i));
             out.print(" ->");
-            for (var j : getNeighbours(i)) {
+            for (Vertex j : getNeighbours(i)) {
                 out.print(' ');
-                out.print(j);
+                out.print(vertices.indexOf(j));
             }
             out.println();
         }

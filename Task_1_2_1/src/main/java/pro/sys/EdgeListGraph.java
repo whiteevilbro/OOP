@@ -5,64 +5,66 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.IntStream;
 
 /**
  * Edge list graph interface implementation.
  */
 public class EdgeListGraph implements Graph {
 
-    private final ArrayList<ArrayList<Integer>> edges = new ArrayList<>();
+    private final ArrayList<ArrayList<Vertex>> edges = new ArrayList<>();
+    private final ArrayList<Vertex> vertices = new ArrayList<>();
 
     @Override
-    public void addDirectedEdge(int from, int to) throws NoSuchElementException {
-        if ((size() <= from) || (size() <= to)) {
+    public void addDirectedEdge(Vertex from, Vertex to) throws NoSuchElementException {
+        if (!vertices.contains(from) || !vertices.contains(to)) {
             throw new NoSuchElementException();
         }
-        edges.get(from).add(to);
+        edges.get(vertices.indexOf(from)).add(to);
     }
 
     @Override
-    public int addVertex() {
+    public Vertex addVertex() {
         edges.add(new ArrayList<>());
-        return size() - 1;
+        vertices.add(new Vertex());
+        return vertices.get(size() - 1);
     }
 
     @Override
-    public void deleteDirectedEdge(int from, int to) throws NoSuchElementException {
-        if (from < 0 || from >= size() || to < 0 || to >= size()) {
+    public void deleteDirectedEdge(Vertex from, Vertex to) throws NoSuchElementException {
+        if (!vertices.contains(from) || !vertices.contains(to)) {
             throw new NoSuchElementException();
         }
-        edges.get(from).remove(Integer.valueOf(to));
+        edges.get(vertices.indexOf(from)).remove(to);
     }
 
     @Override
-    public void deleteVertex(int vertex) throws NoSuchElementException {
-        if (vertex < 0 || vertex >= size()) {
+    public void deleteVertex(Vertex vertex) throws NoSuchElementException {
+        if (!vertices.contains(vertex)) {
             throw new NoSuchElementException();
         }
-        edges.remove(vertex);
-        for (ArrayList<Integer> vertexEdges : edges) {
-            vertexEdges.remove(Integer.valueOf(vertex));
+        edges.remove(vertices.indexOf(vertex));
+        for (ArrayList<Vertex> vertexEdges : edges) {
+            vertexEdges.remove(vertex);
         }
+        vertices.remove(vertex);
     }
 
     @Override
-    public List<Integer> getNeighbours(int vertex) throws NoSuchElementException {
-        if (size() <= vertex) {
+    public List<Vertex> getNeighbours(Vertex vertex) throws NoSuchElementException {
+        if (!vertices.contains(vertex)) {
             throw new NoSuchElementException();
         }
-        return edges.get(vertex);
+        return new ArrayList<>(edges.get(vertices.indexOf(vertex)));
     }
 
     @Override
-    public List<Integer> getVertices() {
-        return IntStream.range(0, size()).boxed().toList();
+    public List<Vertex> getVertices() {
+        return new ArrayList<>(vertices);
     }
 
     @Override
     public int size() {
-        return edges.size();
+        return vertices.size();
     }
 
     @Override
@@ -73,15 +75,15 @@ public class EdgeListGraph implements Graph {
         if (size() != other.size()) {
             return false;
         }
-        List<Integer> thisVertices = getVertices();
-        List<Integer> otherVertices = other.getVertices();
+        List<Vertex> thisVertices = getVertices();
+        List<Vertex> otherVertices = other.getVertices();
         for (int i = 0; i < size(); i++) {
-            List<Integer> thisNeighbours = getNeighbours(thisVertices.get(i));
-            List<Integer> otherNeighbours = other.getNeighbours(otherVertices.get(i));
+            List<Vertex> thisNeighbours = getNeighbours(thisVertices.get(i));
+            List<Vertex> otherNeighbours = other.getNeighbours(otherVertices.get(i));
             if (thisNeighbours.size() != otherNeighbours.size()) {
                 return false;
             }
-            for (Integer thisNeighbour : thisNeighbours) {
+            for (Vertex thisNeighbour : thisNeighbours) {
                 if (!otherNeighbours.contains(
                     otherVertices.get(thisVertices.indexOf(thisNeighbour)))) {
                     return false;
@@ -95,12 +97,12 @@ public class EdgeListGraph implements Graph {
     public String toString() {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         PrintStream out = new PrintStream(stream);
-        for (int i : getVertices()) {
-            out.print(i);
+        for (Vertex i : getVertices()) {
+            out.print(vertices.indexOf(i));
             out.print(" ->");
-            for (var j : getNeighbours(i)) {
+            for (Vertex j : getNeighbours(i)) {
                 out.print(' ');
-                out.print(j);
+                out.print(vertices.indexOf(j));
             }
             out.println();
         }

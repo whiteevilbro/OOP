@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -13,28 +12,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.stream.Stream;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.Test;
+import pro.sys.Graph.Vertex;
 
 @SuppressWarnings({"DuplicateExpressions", "SequencedCollectionMethodCanBeUsed"})
-class GraphTest {
+abstract class GraphTest {
 
-    static Stream<Class<? extends Graph>> get_implementations() {
-        return Stream.of(AdjacencyMatrixGraph.class, EdgeListGraph.class,
-            IncidenceMatrixGraph.class);
-    }
-
-    private static boolean isTopsort(Graph graph, Iterable<Integer> sort) {
-        Set<Integer> set = new HashSet<>();
-        for (int vertex : sort) {
-            for (int neighbour : graph.getNeighbours(vertex)) {
+    private static boolean isTopsort(Graph graph, Iterable<Vertex> sort) {
+        Set<Vertex> set = new HashSet<>();
+        for (Vertex vertex : sort) {
+            for (Vertex neighbour : graph.getNeighbours(vertex)) {
                 if (!set.contains(neighbour)) {
                     return false;
                 }
@@ -44,21 +36,13 @@ class GraphTest {
         return true;
     }
 
-    @ParameterizedTest
-    @MethodSource("get_implementations")
-    void testAddDirectedEdge(Class<? extends Graph> graphclass) {
-        Graph graph;
-        try {
-            graph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException
-                 | IllegalAccessException
-                 | InvocationTargetException
-                 | NoSuchMethodException e) {
-            fail();
-            return;
-        }
-        int vertexOne = graph.addVertex();
-        int vertexTwo = graph.addVertex();
+    protected abstract Graph createGraph();
+
+    @Test
+    void testAddDirectedEdge() {
+        Graph graph = createGraph();
+        Vertex vertexOne = graph.addVertex();
+        Vertex vertexTwo = graph.addVertex();
         graph.addDirectedEdge(vertexOne, vertexTwo);
         String expected = """
             0 -> 1
@@ -69,51 +53,30 @@ class GraphTest {
         // while testing basic constructing functionality
         assertEquals(expected, graph.toString().strip().replace("\r\n", "\n"));
 
-        int vertexFalse = vertexOne + vertexTwo + 1;
+        Vertex vertexFalse = new Vertex();
         assertThrows(NoSuchElementException.class,
             () -> graph.addDirectedEdge(vertexFalse, vertexTwo));
     }
 
-    @ParameterizedTest
-    @MethodSource("get_implementations")
-    void testAddEdge(Class<? extends Graph> graphclass) {
-        Graph graph;
-        Graph graphExpected;
-        try {
-            graph = graphclass.getDeclaredConstructor().newInstance();
-            graphExpected = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException
-                 | IllegalAccessException
-                 | InvocationTargetException
-                 | NoSuchMethodException e) {
-            fail();
-            return;
-        }
-        int vertex0 = graph.addVertex();
-        int vertex1 = graph.addVertex();
+    @Test
+    void testAddEdge() {
+        Graph graph = createGraph();
+        Graph graphExpected = createGraph();
+        Vertex vertex0 = graph.addVertex();
+        Vertex vertex1 = graph.addVertex();
         graph.addEdge(vertex0, vertex1);
 
-        int evertex0 = graphExpected.addVertex();
-        int evertex1 = graphExpected.addVertex();
+        Vertex evertex0 = graphExpected.addVertex();
+        Vertex evertex1 = graphExpected.addVertex();
         graphExpected.addDirectedEdge(evertex0, evertex1);
         graphExpected.addDirectedEdge(evertex1, evertex0);
 
         assertEquals(graphExpected, graph);
     }
 
-    @ParameterizedTest
-    @MethodSource("get_implementations")
-    void testAddVertex(Class<? extends Graph> graphclass) {
-        Graph graph;
-        try {
-            graph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException
-                 | IllegalAccessException
-                 | InvocationTargetException
-                 | NoSuchMethodException e) {
-            fail();
-            return;
-        }
+    @Test
+    void testAddVertex() {
+        Graph graph = createGraph();
         graph.addVertex();
         String expected = """
             0 ->
@@ -134,22 +97,11 @@ class GraphTest {
         assertEquals(expected, graph.toString().strip().replace("\r\n", "\n"));
     }
 
-    @ParameterizedTest
-    @MethodSource("get_implementations")
-    void testBuildFrom(Class<? extends Graph> graphclass) throws IOException {
-        Graph graph;
-        Graph builded;
-        try {
-            graph = graphclass.getDeclaredConstructor().newInstance();
-            builded = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException
-                 | IllegalAccessException
-                 | InvocationTargetException
-                 | NoSuchMethodException e) {
-            fail();
-            return;
-        }
-        int[] vertices = new int[4];
+    @Test
+    void testBuildFrom() throws IOException {
+        Graph graph = createGraph();
+        Graph builded = createGraph();
+        Vertex[] vertices = new Vertex[4];
         for (int i = 0; i < vertices.length; i++) {
             vertices[i] = graph.addVertex();
         }
@@ -171,21 +123,11 @@ class GraphTest {
         assertEquals(graph, builded);
     }
 
-    @ParameterizedTest
-    @MethodSource("get_implementations")
-    void testDeleteDirectedEdge(Class<? extends Graph> graphclass) {
-        Graph graph;
-        try {
-            graph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException
-                 | IllegalAccessException
-                 | InvocationTargetException
-                 | NoSuchMethodException e) {
-            fail();
-            return;
-        }
-        int vertexOne = graph.addVertex();
-        int vertexTwo = graph.addVertex();
+    @Test
+    void testDeleteDirectedEdge() {
+        Graph graph = createGraph();
+        Vertex vertexOne = graph.addVertex();
+        Vertex vertexTwo = graph.addVertex();
         graph.addDirectedEdge(vertexOne, vertexTwo);
         String expected = """
             0 -> 1
@@ -197,59 +139,38 @@ class GraphTest {
             0 ->
             1 ->
             """.strip().replace("\r\n", "\n");
-        graph.deleteDirectedEdge(0, 1);
+        graph.deleteDirectedEdge(vertexOne, vertexTwo);
         assertEquals(expected, graph.toString().strip().replace("\r\n", "\n"));
 
-        int vertexFalse = vertexOne + vertexTwo + 1;
+        Vertex vertexFalse = new Vertex();
         assertThrows(NoSuchElementException.class,
             () -> graph.deleteDirectedEdge(vertexFalse, vertexTwo));
     }
 
-    @ParameterizedTest
-    @MethodSource("get_implementations")
-    void testDeleteEdge(Class<? extends Graph> graphclass) {
-        Graph graph;
-        Graph expectedGraph;
-        try {
-            graph = graphclass.getDeclaredConstructor().newInstance();
-            expectedGraph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException
-                 | IllegalAccessException
-                 | InvocationTargetException
-                 | NoSuchMethodException e) {
-            fail();
-            return;
-        }
-        int vertex0 = graph.addVertex();
-        int vertex1 = graph.addVertex();
-        int vertex2 = graph.addVertex();
+    @Test
+    void testDeleteEdge() {
+        Graph graph = createGraph();
+        Graph expectedGraph = createGraph();
+        Vertex vertex0 = graph.addVertex();
+        Vertex vertex1 = graph.addVertex();
+        Vertex vertex2 = graph.addVertex();
         graph.addEdge(vertex0, vertex1);
         graph.addEdge(vertex0, vertex2);
         graph.deleteEdge(vertex0, vertex1);
 
-        int evertex0 = expectedGraph.addVertex();
+        Vertex evertex0 = expectedGraph.addVertex();
         expectedGraph.addVertex();
-        int evertex2 = expectedGraph.addVertex();
+        Vertex evertex2 = expectedGraph.addVertex();
         expectedGraph.addEdge(evertex0, evertex2);
 
         assertEquals(expectedGraph, graph);
     }
 
-    @ParameterizedTest
-    @MethodSource("get_implementations")
-    void testDeleteVertex(Class<? extends Graph> graphclass) {
-        Graph graph;
-        try {
-            graph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException
-                 | IllegalAccessException
-                 | InvocationTargetException
-                 | NoSuchMethodException e) {
-            fail();
-            return;
-        }
-        int vertex = graph.addVertex();
-        int vertexTwo = graph.addVertex();
+    @Test
+    void testDeleteVertex() {
+        Graph graph = createGraph();
+        Vertex vertex = graph.addVertex();
+        Vertex vertexTwo = graph.addVertex();
         graph.addDirectedEdge(vertexTwo, vertex);
         String expected = """
             0 ->
@@ -264,39 +185,28 @@ class GraphTest {
         graph.deleteVertex(graph.getVertices().get(0));
         assertEquals(expected, graph.toString().strip().replace("\r\n", "\n"));
 
-        int vertexFalse = vertex + vertexTwo + 1;
+        Vertex vertexFalse = new Vertex();
         assertThrows(NoSuchElementException.class, () -> graph.deleteVertex(vertexFalse));
     }
 
-    @ParameterizedTest
-    @MethodSource("get_implementations")
-    void testEquals(Class<? extends Graph> graphclass) {
-        Graph graph;
-        Graph graphTwo;
-        try {
-            graph = graphclass.getDeclaredConstructor().newInstance();
-            graphTwo = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException
-                 | IllegalAccessException
-                 | InvocationTargetException
-                 | NoSuchMethodException e) {
-            fail();
-            return;
-        }
-        int vertex00 = graph.addVertex();
-        int vertex01 = graph.addVertex();
+    @Test
+    void testEquals() {
+        Graph graph = createGraph();
+        Graph graphTwo = createGraph();
+        Vertex vertex00 = graph.addVertex();
+        Vertex vertex01 = graph.addVertex();
         graph.addDirectedEdge(vertex00, vertex01);
 
-        int vertex10 = graphTwo.addVertex();
-        int vertex11 = graphTwo.addVertex();
+        Vertex vertex10 = graphTwo.addVertex();
+        Vertex vertex11 = graphTwo.addVertex();
         graphTwo.addDirectedEdge(vertex10, vertex11);
 
         assertEquals(graph, graphTwo);
-        final int vertex02 = graph.addVertex();
+        final Vertex vertex02 = graph.addVertex();
 
         assertNotEquals(graph, graphTwo);
 
-        int vertex12 = graphTwo.addVertex();
+        Vertex vertex12 = graphTwo.addVertex();
         graphTwo.addDirectedEdge(vertex10, vertex12);
         assertNotEquals(graph, graphTwo);
 
@@ -308,69 +218,39 @@ class GraphTest {
         assertNotEquals(graph, graphTwo);
     }
 
-    @ParameterizedTest
-    @MethodSource("get_implementations")
-    void testGetNeighbours(Class<? extends Graph> graphclass) {
-        Graph graph;
-        try {
-            graph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException
-                 | IllegalAccessException
-                 | InvocationTargetException
-                 | NoSuchMethodException e) {
-            fail();
-            return;
-        }
-        int vertex = graph.addVertex();
-        int neighbourOne = graph.addVertex();
-        int neighbourTwo = graph.addVertex();
+    @Test
+    void testGetNeighbours() {
+        Graph graph = createGraph();
+        Vertex vertex = graph.addVertex();
+        Vertex neighbourOne = graph.addVertex();
+        Vertex neighbourTwo = graph.addVertex();
         graph.addDirectedEdge(vertex, neighbourOne);
         graph.addDirectedEdge(vertex, neighbourTwo);
 
-        List<Integer> neighbours = graph.getNeighbours(vertex);
+        List<Vertex> neighbours = graph.getNeighbours(vertex);
         assertTrue(neighbours.contains(neighbourOne));
         assertTrue(neighbours.contains(neighbourTwo));
 
-        int vertexFalse = vertex + neighbourTwo + neighbourOne + 1;
+        Vertex vertexFalse = new Vertex();
         assertThrows(NoSuchElementException.class, () -> graph.getNeighbours(vertexFalse));
     }
 
-    @ParameterizedTest
-    @MethodSource("get_implementations")
-    void testGetVertices(Class<? extends Graph> graphclass) {
-        Graph graph;
-        try {
-            graph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException
-                 | IllegalAccessException
-                 | InvocationTargetException
-                 | NoSuchMethodException e) {
-            fail();
-            return;
-        }
-        int vertexOne = graph.addVertex();
-        int vertexTwo = graph.addVertex();
-        int vertexThree = graph.addVertex();
+    @Test
+    void testGetVertices() {
+        Graph graph = createGraph();
+        Vertex vertexOne = graph.addVertex();
+        Vertex vertexTwo = graph.addVertex();
+        Vertex vertexThree = graph.addVertex();
 
-        List<Integer> neighbours = graph.getVertices();
+        List<Vertex> neighbours = graph.getVertices();
         assertTrue(neighbours.contains(vertexOne));
         assertTrue(neighbours.contains(vertexTwo));
         assertTrue(neighbours.contains(vertexThree));
     }
 
-    @ParameterizedTest
-    @MethodSource("get_implementations")
-    void testSize(Class<? extends Graph> graphclass) {
-        Graph graph;
-        try {
-            graph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException
-                 | IllegalAccessException
-                 | InvocationTargetException
-                 | NoSuchMethodException e) {
-            fail();
-            return;
-        }
+    @Test
+    void testSize() {
+        Graph graph = createGraph();
         assertEquals(0, graph.size());
         graph.addVertex();
         assertEquals(1, graph.size());
@@ -380,27 +260,17 @@ class GraphTest {
         assertEquals(3, graph.size());
     }
 
-    @ParameterizedTest
-    @MethodSource("get_implementations")
-    void testToString(Class<? extends Graph> graphclass) {
-        Graph graph;
-        try {
-            graph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException
-                 | IllegalAccessException
-                 | InvocationTargetException
-                 | NoSuchMethodException e) {
-            fail();
-            return;
-        }
-        final int vertexOne = graph.addVertex();
+    @Test
+    void testToString() {
+        Graph graph = createGraph();
+        final Vertex vertexOne = graph.addVertex();
         String expected = """
             0 ->
             """.strip().replace("\r\n", "\n");
 
         assertEquals(expected, graph.toString().strip().replace("\r\n", "\n"));
 
-        final int vertexTwo = graph.addVertex();
+        final Vertex vertexTwo = graph.addVertex();
         expected = """
             0 ->
             1 ->
@@ -425,21 +295,11 @@ class GraphTest {
         assertEquals(expected, graph.toString().strip().replace("\r\n", "\n"));
     }
 
-    @ParameterizedTest
-    @MethodSource("get_implementations")
-    void testTopologicalSort(Class<? extends Graph> graphclass) {
-        Graph graph;
-        try {
-            graph = graphclass.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException
-                 | IllegalAccessException
-                 | InvocationTargetException
-                 | NoSuchMethodException e) {
-            fail();
-            return;
-        }
+    @Test
+    void testTopologicalSort() {
+        Graph graph = createGraph();
 
-        int[] vertices = new int[4];
+        Vertex[] vertices = new Vertex[4];
         for (int i = 0; i < vertices.length; i++) {
             vertices[i] = graph.addVertex();
         }

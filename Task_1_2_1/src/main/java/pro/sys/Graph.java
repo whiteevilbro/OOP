@@ -18,20 +18,20 @@ public interface Graph {
     /**
      * Adds directed edge from {@code from} to {@code to}.
      *
-     * @param from vertex integer from where edge will be going.
-     * @param to vertex integer to where edge will be going.
+     * @param from vertex from where edge will be going.
+     * @param to   vertex to where edge will be going.
      * @throws NoSuchElementException if there's no {@code from} or {@code to} vertices in graph.
      */
-    void addDirectedEdge(int from, int to) throws NoSuchElementException;
+    void addDirectedEdge(Vertex from, Vertex to) throws NoSuchElementException;
 
     /**
      * Adds undirected edge from {@code from} to {@code to}.
      *
-     * @param from first vertex integer.
-     * @param to second vertex integer.
+     * @param from first vertex.
+     * @param to   second vertex.
      * @throws NoSuchElementException if there's no {@code from} or {@code to} vertices in graph.
      */
-    default void addEdge(int from, int to) throws NoSuchElementException {
+    default void addEdge(Vertex from, Vertex to) throws NoSuchElementException {
         addDirectedEdge(from, to);
         addDirectedEdge(to, from);
     }
@@ -39,16 +39,16 @@ public interface Graph {
     /**
      * Adds vertex to graph.
      *
-     * @return vertex Integer unique for that graph.
+     * @return vertex unique for that graph.
      */
-    int addVertex();
+    Vertex addVertex();
 
     /**
      * Builds graph from {@code in} expression and adds it to graph.
      *
      * @param in BufferedReader containig string edge list graph representation.
      * @throws IllegalArgumentException if {@code in} is invalid graph representation.
-     * @throws IOException if IO error occurs.
+     * @throws IOException              if IO error occurs.
      */
     default void buildFrom(BufferedReader in) throws IllegalArgumentException, IOException {
         ArrayList<String> edges = new ArrayList<>();
@@ -62,7 +62,7 @@ public interface Graph {
                 edges.add(line);
             }
         }
-        ArrayList<Integer> vertices = new ArrayList<>(edges.size());
+        ArrayList<Vertex> vertices = new ArrayList<>(edges.size());
         for (int i = 0; i < edges.size(); i++) {
             vertices.add(addVertex());
         }
@@ -81,20 +81,20 @@ public interface Graph {
     /**
      * Removes directed edge from {@code from} to {@code to}.
      *
-     * @param from vertex integer from where edge will be going.
-     * @param to vertex integer to where edge will be going.
+     * @param from vertex from where edge will be going.
+     * @param to   vertex to where edge will be going.
      * @throws NoSuchElementException if there's no {@code from} or {@code to} vertices in graph.
      */
-    void deleteDirectedEdge(int from, int to) throws NoSuchElementException;
+    void deleteDirectedEdge(Vertex from, Vertex to) throws NoSuchElementException;
 
     /**
      * Removes undirected edge from {@code from} to {@code to}.
      *
-     * @param from first vertex integer.
-     * @param to second vertex integer.
+     * @param from first vertex.
+     * @param to   second vertex.
      * @throws NoSuchElementException if there's no {@code from} or {@code to} vertices in graph.
      */
-    default void deleteEdge(int from, int to) throws NoSuchElementException {
+    default void deleteEdge(Vertex from, Vertex to) throws NoSuchElementException {
         deleteDirectedEdge(from, to);
         deleteDirectedEdge(to, from);
     }
@@ -102,26 +102,26 @@ public interface Graph {
     /**
      * Removes vertex from graph.
      *
-     * @param vertex integer, vertex to remove.
+     * @param vertex vertex to remove.
      * @throws NoSuchElementException if there's no {@code vertex} vertex in graph.
      */
-    void deleteVertex(int vertex) throws NoSuchElementException;
+    void deleteVertex(Vertex vertex) throws NoSuchElementException;
 
     /**
      * Gets neighbours of vertex.
      *
-     * @param vertex integer, vertex to remove.
-     * @return List&lt;Integer&gt; neighbours of given vertex {@code vertex}.
+     * @param vertex vertex to get neighbours from.
+     * @return List&lt;Vertex&gt; neighbours of given vertex {@code vertex}.
      * @throws NoSuchElementException if there's no {@code vertex} vertex in graph.
      */
-    List<Integer> getNeighbours(int vertex) throws NoSuchElementException;
+    List<Vertex> getNeighbours(Vertex vertex) throws NoSuchElementException;
 
     /**
      * Gets all vertices in graph.
      *
-     * @return List&lt;Integer&gt; all vertices in graph.
+     * @return List&lt;Vertex&gt; all vertices in graph.
      */
-    List<Integer> getVertices();
+    List<Vertex> getVertices();
 
     /**
      * Size of graph, number of vertices.
@@ -133,26 +133,26 @@ public interface Graph {
     /**
      * Topological sorting of graph.
      *
-     * @return List&lt;Integer&gt; topological sorting of graph.
+     * @return List&lt;Vertex&gt; topological sorting of graph.
      * @throws IllegalStateException if graph has to topological sorting.
      */
-    default Iterable<Integer> topologicalSort() throws IllegalStateException {
-        Map<Integer, Integer> color = new HashMap<>();
-        ArrayList<Integer> vertices = new ArrayList<>(getVertices());
-        Stack<Integer> stack = new Stack<>();
-        ArrayList<Integer> result = new ArrayList<>();
-        for (int vertex : vertices) {
+    default Iterable<Vertex> topologicalSort() throws IllegalStateException {
+        Map<Vertex, Integer> color = new HashMap<>();
+        ArrayList<Vertex> vertices = new ArrayList<>(getVertices());
+        Stack<Vertex> stack = new Stack<>();
+        ArrayList<Vertex> result = new ArrayList<>();
+        for (Vertex vertex : vertices) {
             color.put(vertex, 0);
         }
-        for (int vertex : vertices) {
+        for (Vertex vertex : vertices) {
             if (color.get(vertex) == 0) {
                 stack.push(vertex);
             }
             while (!stack.empty()) {
-                int stackVertex = stack.peek();
+                Vertex stackVertex = stack.peek();
                 if (color.get(stackVertex) == 0) {
                     color.put(stackVertex, 1);
-                    for (int neighbourVertex : getNeighbours(stackVertex)) {
+                    for (Vertex neighbourVertex : getNeighbours(stackVertex)) {
                         switch (color.get(neighbourVertex)) {
                             case 0:
                                 stack.push(neighbourVertex);
@@ -173,5 +173,12 @@ public interface Graph {
         }
 
         return result;
+    }
+
+    /**
+     * Graph Vertex class.
+     */
+    class Vertex {
+
     }
 }
