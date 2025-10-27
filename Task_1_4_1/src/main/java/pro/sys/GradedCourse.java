@@ -11,7 +11,7 @@ public class GradedCourse extends Course {
     public final Grade grade;
 
     /**
-     * Graded course contstructor
+     * Graded course contstructor.
      *
      * @param name string name of course.
      * @param grade course grade.
